@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=UTF-8>
+    <title>🖨️ SunduqVault - Order Stickers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .card { background: white; border-radius: 20px; padding: 40px; width: 100%; max-width: 500px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        h1 { color: #4a5568; text-align: center; margin-bottom: 10px; font-size: 2.2rem; }
+        .tagline { text-align: center; color: #718096; margin-bottom: 30px; font-size: 1.1rem; }
+        .input-group { margin-bottom: 25px; }
+        label { display: block; color: #2d3748; margin-bottom: 8px; font-weight: 600; font-size: 1rem; }
+        input { width: 100%; padding: 15px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 1rem; transition: all 0.3s; }
+        input:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
+        .next-btn { background: linear-gradient(to right, #667eea, #764ba2); color: white; border: none; padding: 18px; width: 100%; border-radius: 10px; font-size: 1.2rem; font-weight: bold; cursor: pointer; margin-top: 10px; transition: transform 0.3s, box-shadow 0.3s; }
+        .next-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4); }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🕌 SUNDUQVAULT STICKERS</h1>
+        <p class="tagline">Step 1: Tell us about you. Halal & Barakah-focused. 🤝</p>
+
+        <div class="input-group">
+            <label for="userName">👤 Your Full Name *</label>
+            <input type="text" id="userName" placeholder="e.g., Usaid Ahmed" required>
+        </div>
+
+        <div class="input-group">
+            <label for="userWhatsApp">📱 Your WhatsApp Number *</label>
+            <input type="tel" id="userWhatsApp" placeholder="94712345678" required>
+        </div>
+
+        <div class="input-group">
+            <label for="userAddress">📍 Your Delivery Address (Area, Street) *</label>
+            <input type="text" id="userAddress" placeholder="e.g., Peradeniya Road, Kandy" required>
+        </div>
+
+        <button class="next-btn" onclick="saveAndGoToStep2()">
+            ✅ SAVE & GO TO STEP 2 ➡️
+        </button>
+
+        <p id="errorMsg" class="hidden" style="color: #e53e3e; margin-top: 15px; text-align: center; font-weight: 600;">⚠️ Please fill in all fields, brother!</p>
+    </div>
+
+    <script>
+        // 🧠 THIS FUNCTION RUNS WHEN YOU CLICK THE BUTTON
+        function saveAndGoToStep2() {
+            // 1. GET THE VALUES FROM THE INPUT BOXES
+            const userName = document.getElementById('userName').value.trim();
+            const userWhatsApp = document.getElementById('userWhatsApp').value.trim();
+            const userAddress = document.getElementById('userAddress').value.trim();
+
+            // 2. CHECK IF THEY ARE EMPTY
+            if (!userName || !userWhatsApp || !userAddress) {
+                document.getElementById('errorMsg').classList.remove('hidden');
+                return; // STOP HERE IF EMPTY
+            }
+
+            // 3. SAVE THEM TO THE BROWSER'S BUILT-IN MEMORY (localStorage)
+            // Think of localStorage as a NOTEPAD that all your website pages can read.
+            localStorage.setItem('sticker_userName', userName);
+            localStorage.setItem('sticker_userWhatsApp', userWhatsApp);
+            localStorage.setItem('sticker_userAddress', userAddress);
+
+            // 4. REDIRECT TO THE NEXT SCREEN (screen2.html)
+            window.location.href = 'screen2.html'; // ⚠️ YOU MUST CREATE THIS FILE NEXT!
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Step 3: Grid Editor</title>
+    <!-- 🔗 LOAD FABRIC.JS LIBRARY FOR IMAGE EDITING -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        #previewArea {
+            width: 600px;
+            height: 850px;
+            border: 3px solid #333;
+            margin: 20px auto;
+            background: #eee;
+            position: relative;
+        }
+        .grid-cell {
+            border: 1px dashed #aaa;
+            position: absolute;
+            box-sizing: border-box;
+        }
+        .controls { text-align: center; margin: 20px; }
+        button { margin: 5px; padding: 10px 20px; }
+    </style>
+</head>
+<body>
+    <h1>🎨 STEP 3: FILL YOUR GRIDS</h1>
+    <p>Upload an image for each grid. Drag, resize, and rotate!</p>
+
+    <!-- 📐 THE A4 PREVIEW CANVAS -->
+    <div id="previewArea">
+        <!-- Grids will be drawn here by JavaScript -->
+        <canvas id="previewCanvas" width="600" height="850"></canvas>
+    </div>
+
+    <!-- 🎯 CONTROLS FOR THE SELECTED GRID -->
+    <div class="controls">
+        <h3>🛠️ EDIT SELECTED GRID</h3>
+        <input type="file" id="imageUpload" accept="image/*">
+        <button onclick="rotateImage()">🔄 Rotate</button>
+        <button onclick="deleteImage()">🗑️ Delete Image</button>
+        <p>Click on a grid to select it, then upload or edit.</p>
+    </div>
+
+    <!-- 🚀 NAVIGATION -->
+    <div style="text-align: center; margin-top: 30px;">
+        <button style="padding: 15px 30px; font-size: 1.2rem; background: #0d9488; color: white;" onclick="goToSummary()">
+            ✅ GO TO ORDER SUMMARY (STEP 4)
+        </button>
+    </div>
+
+    <script>
+        // 🧠 GET DATA FROM PREVIOUS SCREEN
+        const orientation = localStorage.getItem('stickerOrientation');
+        const layout = localStorage.getItem('stickerLayout');
+        const totalGrids = parseInt(localStorage.getItem('stickerGrids'));
+        const pricePerGrid = parseFloat(localStorage.getItem('pricePerGrid'));
+
+        // 🎨 SETUP FABRIC CANVAS
+        const canvas = new fabric.Canvas('previewCanvas');
+        const canvasWidth = 600;
+        const canvasHeight = 850;
+        let activeGridIndex = null;
+
+        // 📏 CALCULATE GRID POSITIONS (SIMPLIFIED MATH)
+        let gridWidth, gridHeight, cols, rows;
+        if (layout === 'full') { cols = 1; rows = 1; }
+        if (layout === 'half') { cols = 1; rows = 2; } // Portrait: 2 vertical grids
+        if (layout === 'quarter') { cols = 2; rows = 2; }
+        if (layout === 'eight') { cols = 2; rows = 4; }
+
+        gridWidth = canvasWidth / cols;
+        gridHeight = canvasHeight / rows;
+
+       // 🟦 DRAW THE EMPTY GRIDS WITH UPLOAD BUTTONS
+for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+        const gridIndex = row * cols + col;
+        if (gridIndex >= totalGrids) break;
+
+        // Create the grid rectangle
+        const rect = new fabric.Rect({
+            left: col * gridWidth,
+            top: row * gridHeight,
+            width: gridWidth - 2,
+            height: gridHeight - 2,
+            fill: 'white',
+            stroke: '#0d9488',
+            strokeWidth: 2,
+            selectable: false,
+            name: `grid-${gridIndex}`
+        });
+        canvas.add(rect);
+
+        // 🆕 CREATE AN INVISIBLE UPLOAD BUTTON OVER THE GRID
+        // We'll make a transparent rectangle that acts as a button
+        const buttonZone = new fabric.Rect({
+            left: col * gridWidth,
+            top: row * gridHeight,
+            width: gridWidth - 2,
+            height: gridHeight - 2,
+            fill: 'rgba(13, 148, 136, 0.05)', // Almost transparent
+            stroke: 'transparent',
+            selectable: false,
+            name: `upload-btn-${gridIndex}`,
+            hoverCursor: 'pointer'
+        });
+        
+        // 🆕 WHEN THIS INVISIBLE BUTTON IS CLICKED
+        buttonZone.on('mousedown', function() {
+            // Create a hidden file input
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = 'image/*';
+            fileInput.style.display = 'none';
+            
+            // When a file is chosen
+            fileInput.onchange = function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    fabric.Image.fromURL(event.target.result, function(img) {
+                        // Scale image to fit grid
+                        const scale = Math.min(
+                            (gridWidth - 20) / img.width,
+                            (gridHeight - 20) / img.height
+                        );
+                        img.scale(scale);
+                        
+                        // Center in the grid
+                        img.set({
+                            left: col * gridWidth + (gridWidth / 2),
+                            top: row * gridHeight + (gridHeight / 2),
+                            originX: 'center',
+                            originY: 'center',
+                            name: `image-for-grid-${gridIndex}`,
+                            selectable: true // ✅ User can now click and rotate this image!
+                        });
+                        
+                        canvas.add(img);
+                        canvas.renderAll();
+                    });
+                };
+                reader.readAsDataURL(file);
+            };
+            
+            // Trigger the file selection dialog
+            document.body.appendChild(fileInput);
+            fileInput.click();
+            document.body.removeChild(fileInput);
+        });
+        
+        canvas.add(buttonZone);
+        
+        // 🆕 ADD A TEXT LABEL INSIDE EMPTY GRID
+        const labelText = new fabric.Text(`Grid ${gridIndex + 1}\n(Click to upload)`, {
+            left: col * gridWidth + (gridWidth / 2),
+            top: row * gridHeight + (gridHeight / 2),
+            originX: 'center',
+            originY: 'center',
+            fontSize: 12,
+            fill: '#64748b',
+            textAlign: 'center',
+            selectable: false,
+            name: `label-for-grid-${gridIndex}`
+        });
+        canvas.add(labelText);
+    }
+}
+
+                // Make grid clickable to select
+                rect.on('mousedown', () => {
+                    activeGridIndex = gridIndex;
+                    alert(`Grid ${gridIndex + 1} selected! Now upload an image for it.`);
+                });
+        
+
+        // 📤 HANDLE IMAGE UPLOAD FOR THE SELECTED GRID
+        document.getElementById('imageUpload').onchange = function(e) {
+            if (activeGridIndex === null) {
+                alert("⚠️ Click on a grid first to select it!");
+                return;
+            }
+            const file = e.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                fabric.Image.fromURL(event.target.result, function(img) {
+                    // Scale image to fit the grid
+                    img.scaleToWidth(gridWidth - 10);
+                    img.scaleToHeight(gridHeight - 10);
+
+                    // Center it in the selected grid
+                    const col = activeGridIndex % cols;
+                    const row = Math.floor(activeGridIndex / cols);
+                    img.set({
+                        left: col * gridWidth + (gridWidth / 2),
+                        top: row * gridHeight + (gridHeight / 2),
+                        originX: 'center',
+                        originY: 'center',
+                        name: `image-for-grid-${activeGridIndex}`
+                    });
+
+                    canvas.add(img);
+                    canvas.renderAll();
+                });
+            };
+            reader.readAsDataURL(file);
+        };
+
+        // 🔄 ROTATE THE IMAGE IN THE SELECTED GRID
+        function rotateImage() {
+            const activeObject = canvas.getActiveObject();
+            if (activeObject && activeObject.name && activeObject.name.startsWith('image-for-grid-')) {
+                activeObject.rotate((activeObject.angle || 0) + 15);
+                canvas.renderAll();
+            } else {
+                alert("Select an image by clicking on it first!");
+            }
+        }
+
+        // 🗑️ DELETE THE IMAGE FROM THE SELECTED GRID
+        function deleteImage() {
+            const activeObject = canvas.getActiveObject();
+            if (activeObject) {
+                canvas.remove(activeObject);
+                canvas.renderAll();
+            }
+        }
+
+     // 💾 SAVE CANVAS AS IMAGE AND GO TO SUMMARY
+function goToSummary() {
+    // Count how many grids have images
+    const imageCount = canvas.getObjects().filter(obj => obj.name && obj.name.startsWith('image-for-grid-')).length;
+    const totalPrice = imageCount * pricePerGrid;
+    
+    // 🆕 FIRST, HIDE THE UPLOAD BUTTONS AND LABELS FROM THE FINAL IMAGE
+    canvas.getObjects().forEach(obj => {
+        if (obj.name && (obj.name.startsWith('upload-btn-') || obj.name.startsWith('label-for-grid-'))) {
+            obj.visible = false;
+        }
+    });
+    canvas.renderAll();
+    
+    // 🆕 SAVE THE CANVAS AS AN IMAGE DATA URL
+    const finalDesignUrl = canvas.toDataURL({
+        format: 'png',
+        quality: 1.0
+    });
+    
+    // 🆕 MAKE THE USER DOWNLOAD THE PREVIEW IMAGE
+    const downloadLink = document.createElement('a');
+    downloadLink.href = finalDesignUrl;
+    downloadLink.download = `SunduqVault-Design-Preview-${Date.now()}.png`;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+    
+    // 🆕 SHOW ALERT WITH INSTRUCTIONS
+    alert(`✅ AMAZING! Your design preview has been downloaded to your device. 
+    \n\n📱 IMPORTANT: When you send the WhatsApp order, you MUST ATTACH this image file so we can see your design!
+    \n\nNow going to the final order summary...`);
+    
+    // Save the crucial data
+    localStorage.setItem('filledGrids', imageCount);
+    localStorage.setItem('totalPrice', totalPrice);
+    localStorage.setItem('finalDesignUrl', finalDesignUrl); // Save the image data too
+    
+    // Go to the final screen
+    window.location.href = 'screen4.html';
+}
+    </script>
+</body>
+</html>

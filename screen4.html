@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>✅ Your Order Summary</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .card { background: white; border-radius: 20px; padding: 40px; width: 100%; max-width: 600px; box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25); }
+        h1 { color: #0f766e; text-align: center; margin-bottom: 5px; font-size: 2.5rem; }
+        .subtitle { text-align: center; color: #64748b; margin-bottom: 40px; font-size: 1.1rem; }
+        .summary-box { background: #f8fafc; border-radius: 15px; padding: 25px; margin: 25px 0; border: 2px solid #e2e8f0; }
+        .summary-item { margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #cbd5e1; }
+        .summary-item:last-child { border-bottom: none; margin-bottom: 0; }
+        .label { font-weight: 700; color: #475569; }
+        .value { color: #0f766e; font-weight: 600; }
+        .final-price { background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 25px; border-radius: 12px; text-align: center; margin: 30px 0; font-size: 2.2rem; font-weight: 800; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3); }
+        .whatsapp-btn { background: linear-gradient(to right, #25D366, #128C7E); color: white; border: none; padding: 22px; width: 100%; border-radius: 12px; font-size: 1.4rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; transition: all 0.3s; margin-top: 20px; }
+        .whatsapp-btn:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(37, 211, 102, 0.4); }
+        .error-msg { background: #fed7d7; color: #9b2c2c; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #fc8181; margin-bottom: 25px; font-weight: 600; }
+        .hidden { display: none; }
+        .emoji { font-size: 1.4em; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1><span class="emoji">🧾</span> ORDER SUMMARY</h1>
+        <p class="subtitle">Review everything and send your order via WhatsApp! 📤</p>
+
+        <div id="errorContainer" class="hidden">
+            <!-- Error message will appear here if data is missing -->
+        </div>
+
+        <div id="summaryContainer" class="hidden">
+            <!-- 🧠 ALL THE USER'S DATA WILL BE DISPLAYED HERE BY JAVASCRIPT -->
+            <div class="summary-box">
+                <h3 style="color: #0f766e; margin-bottom: 20px; text-align: center;"><span class="emoji">👤</span> Customer Details</h3>
+                <div class="summary-item">
+                    <span class="label">Name:</span> <span id="dispName" class="value"></span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">WhatsApp:</span> <span id="dispWhatsApp" class="value"></span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Address:</span> <span id="dispAddress" class="value"></span>
+                </div>
+            </div>
+
+            <div class="summary-box">
+                <h3 style="color: #0f766e; margin-bottom: 20px; text-align: center;"><span class="emoji">🎨</span> Sticker Details</h3>
+                <div class="summary-item">
+                    <span class="label">Layout:</span> <span id="dispLayout" class="value"></span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Filled Grids:</span> <span id="dispFilledGrids" class="value"></span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Total Grids:</span> <span id="dispTotalGrids" class="value"></span>
+                </div>
+            </div>
+
+            <div class="final-price">
+                <span class="emoji">💰</span> TOTAL PRICE: Rs. <span id="dispTotalPrice">0</span> /=
+            </div>
+
+            <button id="sendWhatsAppBtn" class="whatsapp-btn">
+                <span class="emoji">📲</span> SEND THIS ORDER VIA WHATSAPP
+            </button>
+
+            <p style="text-align: center; color: #64748b; margin-top: 25px; font-size: 0.95rem;">
+                <span class="emoji">ℹ️</span> Clicking the button will open WhatsApp with a pre-written message containing all these details. Just hit send!
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // 🧠 THIS SCRIPT RUNS AS SOON AS THE PAGE LOADS
+        window.onload = function() {
+            // 1. READ ALL SAVED DATA FROM THE BROWSER'S MEMORY (localStorage)
+            const userName = localStorage.getItem('sticker_userName');
+            const userWhatsApp = localStorage.getItem('sticker_userWhatsApp');
+            const userAddress = localStorage.getItem('sticker_userAddress');
+
+            const stickerLayout = localStorage.getItem('stickerLayout'); // 'full', 'half', etc.
+            const totalGrids = localStorage.getItem('stickerGrids'); // Total grids available
+            const filledGrids = localStorage.getItem('filledGrids'); // Grids user actually filled
+            const totalPrice = localStorage.getItem('totalPrice'); // Final calculated price
+
+            // 2. CHECK IF ESSENTIAL DATA IS MISSING (e.g., user came here directly)
+            if (!userName || !userWhatsApp) {
+                showError("⚠️ Oops! It looks like you came here directly. Please start your order from the beginning.");
+                return;
+            }
+
+            // 3. DISPLAY THE DATA ON THE SCREEN
+            document.getElementById('dispName').textContent = userName;
+            document.getElementById('dispWhatsApp').textContent = userWhatsApp;
+            document.getElementById('dispAddress').textContent = userAddress || 'Not provided';
+
+            // Format layout name for display
+            const layoutNames = { 'full': 'Full A4 (1 Grid)', 'half': 'Half A4 (2 Grids)', 'quarter': 'Quarter A4 (4 Grids)', 'eight': 'Eighth A4 (8 Grids)' };
+            document.getElementById('dispLayout').textContent = layoutNames[stickerLayout] || stickerLayout || 'Not selected';
+
+            document.getElementById('dispTotalGrids').textContent = totalGrids || 'N/A';
+            document.getElementById('dispFilledGrids').textContent = filledGrids || '0';
+            document.getElementById('dispTotalPrice').textContent = totalPrice || '0';
+
+            // 4. SHOW THE MAIN SUMMARY CONTAINER (HIDES THE ERROR)
+            document.getElementById('summaryContainer').classList.remove('hidden');
+
+            // 5. SET UP THE WHATSAPP BUTTON
+            document.getElementById('sendWhatsAppBtn').onclick = function() {
+                sendToWhatsApp(userName, userWhatsApp, userAddress, stickerLayout, totalGrids, filledGrids, totalPrice);
+            };
+        };
+
+        // ❌ FUNCTION TO SHOW AN ERROR MESSAGE
+        function showError(message) {
+            const errorContainer = document.getElementById('errorContainer');
+            errorContainer.innerHTML = `<p class="error-msg">${message} <br><br> <a href="index.html" style="color: #2b6cb0; font-weight: bold;">🏠 Go to Home Page</a></p>`;
+            errorContainer.classList.remove('hidden');
+        }
+
+        // 📤 FUNCTION TO FORMAT AND OPEN WHATSAPP
+        function sendToWhatsApp(name, whatsapp, address, layout, totalGrids, filledGrids, price) {
+            // Format the layout name again for the message
+            const layoutNames = { 'full': 'Full A4', 'half': 'Half A4', 'quarter': 'Quarter A4', 'eight': 'Eighth A4' };
+            const layoutDisplay = layoutNames[layout] || layout;
+
+            // ✨ CREATE THE PERFECT WHATSAPP MESSAGE
+            // %0A is a new line in a WhatsApp URL
+            // ✨ CREATE THE PERFECT WHATSAPP MESSAGE
+// %0A is a new line in a WhatsApp URL
+const message = `Assalamu Alaikum! New Sticker Order from SunduqVault:%0A%0A` +
+               `*CUSTOMER*%0A` +
+               `Name: ${name}%0A` +
+               `WhatsApp: ${whatsapp}%0A` +
+               `Address: ${address}%0A%0A` +
+               `*ORDER DETAILS*%0A` +
+               `Layout: ${layoutDisplay}%0A` +
+               `Filled Grids: ${filledGrids} / ${totalGrids}%0A` +
+               `Total Price: Rs. ${price}/=%0A%0A` +
+               `*IMPORTANT NEXT STEP*%0A` +
+               `1. You should have downloaded a design preview image.%0A` +
+               `2. PLEASE SEND THAT IMAGE FILE in this chat after sending this message.%0A` +
+               `3. We will confirm your layout and start printing!%0A%0A` +
+               `JazakAllah Khair for your order! 📸`;
+
+            // YOUR BUSINESS WHATSAPP NUMBER - CHANGE THIS TO YOUR NUMBER! 📱
+            const yourBusinessNumber = '94705608332'; // ⚠️ REPLACE 94705608332 WITH YOUR NUMBER!
+
+            // OPEN WHATSAPP WITH THE PRE-WRITTEN MESSAGE
+            window.open(`https://wa.me/${yourBusinessNumber}?text=${message}`, '_blank');
+
+            // Show a nice confirmation to the user
+            alert(`✅ Perfect, ${name}! WhatsApp is opening. Please check the message and hit SEND to place your order with SunduqVault. We'll contact you shortly for the design preview, insha'Allah!`);
+        }
+    </script>
+</body>
+</html>

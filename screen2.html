@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Step 2: Choose Layout</title>
+    <style>/* 🎨 BASIC STYLING - MAKE IT BEAUTIFUL LATER */
+        body { font-family: sans-serif; padding: 20px; background: #f0f8ff; }
+        .option { background: white; border: 2px solid #0d9488; padding: 20px; margin: 15px 0; border-radius: 12px; cursor: pointer; transition: 0.3s; }
+        .option:hover { background: #ccfbf1; transform: translateY(-3px); }
+        .btn { background: #0d9488; color: white; padding: 15px 30px; border: none; border-radius: 8px; font-size: 1.2rem; cursor: pointer; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>📐 STEP 2: DESIGN YOUR SHEET</h1>
+    <p>Choose how to split your A4 sheet. This creates the grids in the next step.</p>
+
+    <!-- ORIENTATION -->
+    <div>
+        <h3>🔄 ORIENTATION</h3>
+        <label><input type="radio" name="orient" value="portrait" checked> Portrait (29.7cm x 21.0cm)</label><br>
+        <label><input type="radio" name="orient" value="landscape"> Landscape (21.0cm x 29.7cm)</label>
+    </div>
+
+    <!-- LAYOUT OPTIONS -->
+    <h3>🧩 CHOOSE YOUR LAYOUT</h3>
+    <div class="option" onclick="selectLayout('full')">
+        <strong>🟦 FULL A4</strong> - 1 Grid (One large sticker)
+    </div>
+    <div class="option" onclick="selectLayout('half')">
+        <strong>➗ 1/2 A4</strong> - 2 Grids (Two stickers)
+    </div>
+    <div class="option" onclick="selectLayout('quarter')">
+        <strong>⏹️ 1/4 A4</strong> - 4 Grids (Four stickers)
+    </div>
+    <div class="option" onclick="selectLayout('eight')">
+        <strong>🔲 1/8 A4</strong> - 8 Grids (Eight stickers)
+    </div>
+
+    <button class="btn" onclick="goToEditor()">✨ GO TO GRID EDITOR (STEP 3)</button>
+
+    <script>
+        let selectedLayout = 'full'; // Default
+
+        function selectLayout(layout) {
+            selectedLayout = layout;
+            alert(`Selected: ${layout.toUpperCase()} layout!`);
+            // You can update a visual indicator here
+        }
+
+        function goToEditor() {
+            // 1. GET ORIENTATION
+            const orientation = document.querySelector('input[name="orient"]:checked').value;
+
+            // 2. CALCULATE GRIDS BASED ON LAYOUT
+            const layoutConfig = {
+                'full': { grids: 1, pricePerGrid: 100 },
+                'half': { grids: 2, pricePerGrid: 50 },
+                'quarter': { grids: 4, pricePerGrid: 25 },
+                'eight': { grids: 8, pricePerGrid: 12.5 }
+            };
+            const config = layoutConfig[selectedLayout];
+
+            // 3. SAVE EVERYTHING TO BROWSER MEMORY
+            localStorage.setItem('stickerOrientation', orientation);
+            localStorage.setItem('stickerLayout', selectedLayout);
+            localStorage.setItem('stickerGrids', config.grids);
+            localStorage.setItem('pricePerGrid', config.pricePerGrid);
+
+            // 4. GO TO THE GRID EDITOR SCREEN
+            window.location.href = 'screen3.html'; // ⚠️ YOU MUST CREATE THIS FILE
+        }
+    </script>
+</body>
+</html>
