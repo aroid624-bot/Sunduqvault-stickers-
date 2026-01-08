@@ -75,13 +75,14 @@
             const orientation = document.querySelector('input[name="orient"]:checked').value;
 
             // 2. CALCULATE GRIDS BASED ON LAYOUT
-            const layoutConfig = {
-                'full': { grids: 1, pricePerGrid: 100 },
-                'half': { grids: 2, pricePerGrid: 50 },
-                'quarter': { grids: 4, pricePerGrid: 25 },
-                'eight': { grids: 8, pricePerGrid: 12.5 }
-            };
-            const config = layoutConfig[selectedLayout];
+const layoutConfig = {
+        'full': { grids: 1, pricePerGrid: 100, cols: 1, rows: 1 },
+            'half-portrait': { grids: 2, pricePerGrid: 50, cols: 1, rows: 2 }, // 2 down
+                'half-landscape': { grids: 2, pricePerGrid: 50, cols: 2, rows: 1 }, // 2 side
+                    'quarter': { grids: 4, pricePerGrid: 25, cols: 2, rows: 2 },
+                        'eight': { grids: 8, pricePerGrid: 12.5, cols: 2, rows: 4 }
+                        };
+}
 
             // 3. SAVE EVERYTHING TO BROWSER MEMORY
             localStorage.setItem('stickerOrientation', orientation);
