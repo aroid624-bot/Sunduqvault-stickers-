@@ -228,16 +228,37 @@ for (let row = 0; row < rows; row++) {
             if (activeObject) {
                 canvas.remove(activeObject);
                 canvas.renderAll();
+            }}
+        // 💾 SAVE CANVAS AS IMAGE AND GO TO SUMMARY - FIXED VERSION
+function goToSummary() {
+    // 🆕 COUNT ONLY UNIQUE GRIDS WITH IMAGES (FIX FOR 5/4 BUG)
+    const filledGridsSet = new Set(); // Set stores only unique values
+    
+    canvas.getObjects().forEach(obj => {
+        if (obj.name && obj.name.startsWith('image-for-grid-')) {
+            // Extract grid number from name like "image-for-grid-3" → 3
+            const gridNumMatch = obj.name.match(/image-for-grid-(\d+)/);
+            if (gridNumMatch) {
+                const gridIndex = parseInt(gridNumMatch[1]);
+                // Only count if grid index is valid (0 to totalGrids-1)
+                if (!isNaN(gridIndex) && gridIndex < totalGrids) {
+                    filledGridsSet.add(gridIndex);
+                }
             }
         }
-
-     // 💾 SAVE CANVAS AS IMAGE AND GO TO SUMMARY
-function goToSummary() {
-    // Count how many grids have images
-    const imageCount = canvas.getObjects().filter(obj => obj.name && obj.name.startsWith('image-for-grid-')).length;
-    const totalPrice = imageCount * pricePerGrid;
+    });
     
-    // 🆕 FIRST, HIDE THE UPLOAD BUTTONS AND LABELS FROM THE FINAL IMAGE
+    const filledGridsCount = filledGridsSet.size; // Number of unique filled grids
+    
+    // 🆕 CALCULATE PRICE: Can't charge for more grids than exist!
+    const actualFilledGrids = Math.min(filledGridsCount, totalGrids);
+    const totalPrice = actualFilledGrids * pricePerGrid;
+    
+    // 🆕 SAVE THE CORRECT DATA
+    localStorage.setItem('filledGrids', actualFilledGrids);
+    localStorage.setItem('totalPrice', totalPrice);
+    
+    // 🆕 HIDE UPLOAD BUTTONS AND LABELS FROM FINAL IMAGE
     canvas.getObjects().forEach(obj => {
         if (obj.name && (obj.name.startsWith('upload-btn-') || obj.name.startsWith('label-for-grid-'))) {
             obj.visible = false;
@@ -245,13 +266,13 @@ function goToSummary() {
     });
     canvas.renderAll();
     
-    // 🆕 SAVE THE CANVAS AS AN IMAGE DATA URL
+    // 🆕 SAVE CANVAS AS IMAGE DATA URL
     const finalDesignUrl = canvas.toDataURL({
         format: 'png',
         quality: 1.0
     });
     
-    // 🆕 MAKE THE USER DOWNLOAD THE PREVIEW IMAGE
+    // 🆕 MAKE USER DOWNLOAD THE PREVIEW
     const downloadLink = document.createElement('a');
     downloadLink.href = finalDesignUrl;
     downloadLink.download = `SunduqVault-Design-Preview-${Date.now()}.png`;
@@ -259,19 +280,15 @@ function goToSummary() {
     downloadLink.click();
     document.body.removeChild(downloadLink);
     
-    // 🆕 SHOW ALERT WITH INSTRUCTIONS
-    alert(`✅ AMAZING! Your design preview has been downloaded to your device. 
-    \n\n📱 IMPORTANT: When you send the WhatsApp order, you MUST ATTACH this image file so we can see your design!
-    \n\nNow going to the final order summary...`);
+    // 🆕 SHOW ALERT WITH CORRECT GRID COUNT
+    alert(`✅ PERFECT! You filled ${actualFilledGrids} of ${totalGrids} grids.
+    \n📱 Your design preview has been downloaded.
+    \nIMPORTANT: Send this image file when you place your WhatsApp order!
+    \nNow going to order summary...`);
     
-    // Save the crucial data
-    localStorage.setItem('filledGrids', imageCount);
-    localStorage.setItem('totalPrice', totalPrice);
-    localStorage.setItem('finalDesignUrl', finalDesignUrl); // Save the image data too
-    
-    // Go to the final screen
+    // GO TO SUMMARY SCREEN
     window.location.href = 'screen4.html';
 }
-    </script>
+</script>
 </body>
 </html>
