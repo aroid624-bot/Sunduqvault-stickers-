@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔄 Choose Your Path | SunduqVault</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 🌙 DEEP THEME - PROFESSIONAL & MODERN */
+        :root {
+            --primary: #0f766e;     /* Teal - Trust */
+            --secondary: #7c3aed;   /* Purple - Royalty */
+            --dark: #0f172a;        /* Dark Blue - Depth */
+            --light: #f8fafc;       /* Off White - Clean */
+            --accent: #f59e0b;      /* Amber - Energy */
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, var(--dark) 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: var(--light);
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+        /* 🏔️ HEADER */
+        .header {
+            margin-bottom: 50px;
+        }
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+        /* ❓ QUESTION CARD */
+        .question-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px 30px;
+            margin-bottom: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        .question-icon {
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        .question-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .question-hint {
+            color: #cbd5e1;
+            font-size: 1rem;
+        }
+        /* 🔘 CHOICE BUTTONS - BIG & BEAUTIFUL */
+        .choices-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .choice-btn {
+            background: linear-gradient(135deg, var(--primary), #0d9488);
+            border: none;
+            border-radius: 20px;
+            padding: 30px 25px;
+            color: white;
+            font-size: 1.6rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+            text-align: left;
+        }
+        .choice-btn:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.5);
+        }
+        .choice-btn.option2 {
+            background: linear-gradient(135deg, var(--secondary), #8b5cf6);
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+        }
+        .choice-btn.option2:hover {
+            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.5);
+        }
+        .btn-icon {
+            font-size: 2.5rem;
+        }
+        .btn-text {
+            flex: 1;
+        }
+        .btn-desc {
+            display: block;
+            font-size: 1rem;
+            font-weight: 400;
+            opacity: 0.9;
+            margin-top: 8px;
+        }
+        /* 📱 RESPONSIVE */
+        @media (min-width: 768px) {
+            .choices-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .choice-btn {
+                flex-direction: column;
+                text-align: center;
+                padding: 40px 25px;
+            }
+            .btn-icon {
+                margin-bottom: 15px;
+            }
+        }
+        /* 🔽 FOOTER */
+        .footer-note {
+            margin-top: 50px;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        .highlight {
+            color: var(--accent);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 🏔️ HEADER -->
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-mosque"></i>
+            </div>
+            <h1>SunduqVault Stickers</h1>
+            <p class="subtitle">Halal earnings. Heartfelt giving. Every design carries a dua.</p>
+        </div>
+
+        <!-- ❓ QUESTION CARD -->
+        <div class="question-card">
+            <div class="question-icon">
+                <i class="fas fa-question-circle"></i>
+            </div>
+            <p class="question-text">How would you like to create your sticker?</p>
+            <p class="question-hint">Choose your path below. Both lead to unique, personalized stickers.</p>
+        </div>
+
+        <!-- 🔘 CHOICE BUTTONS -->
+        <div class="choices-grid">
+            <!-- OPTION 1: CUSTOM DESIGN -->
+            <button class="choice-btn" onclick="goToCustom()">
+                <div class="btn-icon">
+                    <i class="fas fa-paint-brush"></i>
+                </div>
+                <div class="btn-text">
+                    Design My Own
+                    <span class="btn-desc">Upload your image, create something unique.</span>
+                </div>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+
+            <!-- OPTION 2: TRENDING DESIGNS -->
+            <button class="choice-btn option2" onclick="goToTrending()">
+                <div class="btn-icon">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <div class="btn-text">
+                    Browse Trending
+                    <span class="btn-desc">Choose from our popular, ready-to-print designs.</span>
+                </div>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+
+        <!-- 🔽 FOOTER -->
+        <p class="footer-note">
+            Powered by <span class="highlight">Barakah</span> • Every sale fills a plate.
+        </p>
+    </div>
+
+    <script>
+        function goToCustom() {
+            // 🎨 Redirect to your original custom design flow
+            // Change 'screen2_design.html' to your actual custom flow start page
+            window.location.href = 'screen2_design.html';
+        }
+
+        function goToTrending() {
+            // 🔥 Redirect to trending stickers gallery
+            // Change 'trending.html' to your actual trending page
+            window.location.href = 'trending.html';
+        }
+    </script>
+</body>
+</html>
