@@ -1,187 +1,244 @@
-/* ===== SUNDUQVAULT MASTER STYLES ===== */
+/* ===== SUNDUQVAULT UNIFIED BRAND STYLES ===== */
+/* APPLY TO ALL PAGES: index.html, screen3.html, screen4.html, screen2.html */
+
 :root {
-    --primary: #0f766e;     /* Teal - Trust */
-    --secondary: #7c3aed;   /* Purple - Royalty */
-    --dark: #0f172a;        /* Dark Blue - Depth */
-    --light: #f8fafc;       /* Off White - Clean */
-    --accent: #f59e0b;      /* Amber - Energy */
-    --success: #10b981;     /* Green - Success */
-    --danger: #ef4444;      /* Red - Error */
-}
+    --primary: #0f766e;     /* Trust Teal */
+        --secondary: #7c3aed;   /* Royal Purple */
+            --dark: #0f172a;        /* Deep Navy */
+                --light: #f8fafc;       /* Clean White */
+                    --accent: #f59e0b;      /* Energy Amber */
+                        --success: #10b981;     /* Success Green */
+                            --danger: #ef4444;      /* Error Red */
+                                --gray: #64748b;        /* Text Gray */
+                                }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', system-ui, sans-serif;
-}
+                                /* ===== BASE RESET ===== */
+                                * {
+                                    margin: 0;
+                                        padding: 0;
+                                            box-sizing: border-box;
+                                                font-family: 'Segoe UI', system-ui, sans-serif;
+                                                }
 
-body {
-    background: linear-gradient(135deg, var(--dark) 0%, #1e293b 100%);
-    min-height: 100vh;
-    color: var(--light);
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+                                                body {
+                                                    background: linear-gradient(135deg, var(--dark) 0%, #1e293b 100%);
+                                                        min-height: 100vh;
+                                                            color: var(--light);
+                                                                padding: 20px;
+                                                                    display: flex;
+                                                                        justify-content: center;
+                                                                            align-items: center;
+                                                                            }
 
-/* 🏔️ CONTAINER */
-.container {
-    max-width: 800px;
-    width: 100%;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 24px;
-    padding: 40px 30px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    text-align: center;
-}
+                                                                            /* ===== UNIFIED CONTAINER ===== */
+                                                                            /* Targets: .card (index, screen4), .container (screen2), #previewArea parent */
+                                                                            .card, 
+                                                                            .container,
+                                                                            body > div:not(.header) {
+                                                                                max-width: 800px;
+                                                                                    width: 100%;
+                                                                                        background: rgba(255, 255, 255, 0.05);
+                                                                                            backdrop-filter: blur(10px);
+                                                                                                border: 1px solid rgba(255, 255, 255, 0.1);
+                                                                                                    border-radius: 24px;
+                                                                                                        padding: 40px 30px;
+                                                                                                            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                                                                                                                text-align: center;
+                                                                                                                }
 
-/* 📱 HEADER */
-.header {
-    margin-bottom: 40px;
-}
+                                                                                                                /* ===== HEADERS ===== */
+                                                                                                                h1 {
+                                                                                                                    font-size: 2.5rem;
+                                                                                                                        margin-bottom: 15px;
+                                                                                                                            background: linear-gradient(90deg, var(--accent), var(--primary));
+                                                                                                                                -webkit-background-clip: text;
+                                                                                                                                    -webkit-text-fill-color: transparent;
+                                                                                                                                        font-weight: 800;
+                                                                                                                                            text-align: center;
+                                                                                                                                            }
 
-.logo {
-    font-size: 3rem;
-    margin-bottom: 15px;
-    color: var(--accent);
-}
+                                                                                                                                            /* For index.html specific h1 */
+                                                                                                                                            .card h1 {
+                                                                                                                                                color: var(--light); /* Override gradient for contrast */
+                                                                                                                                                    background: none;
+                                                                                                                                                        -webkit-text-fill-color: var(--light);
+                                                                                                                                                        }
 
-h1 {
-    font-size: 2.5rem;
-    margin-bottom: 15px;
-    background: linear-gradient(90deg, var(--accent), var(--primary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 800;
-}
+                                                                                                                                                        .tagline, 
+                                                                                                                                                        .subtitle,
+                                                                                                                                                        .question-hint {
+                                                                                                                                                            font-size: 1.1rem;
+                                                                                                                                                                color: #94a3b8;
+                                                                                                                                                                    max-width: 600px;
+                                                                                                                                                                        margin: 0 auto 30px;
+                                                                                                                                                                            line-height: 1.6;
+                                                                                                                                                                                text-align: center;
+                                                                                                                                                                                }
 
-.subtitle {
-    font-size: 1.1rem;
-    color: #94a3b8;
-    max-width: 600px;
-    margin: 0 auto;
-    line-height: 1.6;
-}
+                                                                                                                                                                                /* ===== INPUT GROUPS ===== */
+                                                                                                                                                                                .input-group {
+                                                                                                                                                                                    margin-bottom: 25px;
+                                                                                                                                                                                        text-align: left;
+                                                                                                                                                                                        }
 
-/* 📝 INPUT GROUPS */
-.input-group {
-    margin-bottom: 25px;
-    text-align: left;
-}
+                                                                                                                                                                                        label {
+                                                                                                                                                                                            display: block;
+                                                                                                                                                                                                color: var(--light);
+                                                                                                                                                                                                    margin-bottom: 8px;
+                                                                                                                                                                                                        font-weight: 600;
+                                                                                                                                                                                                            font-size: 1rem;
+                                                                                                                                                                                                            }
 
-label {
-    display: block;
-    color: var(--light);
-    margin-bottom: 8px;
-    font-weight: 600;
-    font-size: 1rem;
-}
+                                                                                                                                                                                                            input, select, textarea {
+                                                                                                                                                                                                                width: 100%;
+                                                                                                                                                                                                                    padding: 16px 20px;
+                                                                                                                                                                                                                        background: rgba(255, 255, 255, 0.08);
+                                                                                                                                                                                                                            border: 2px solid rgba(255, 255, 255, 0.1);
+                                                                                                                                                                                                                                border-radius: 12px;
+                                                                                                                                                                                                                                    color: var(--light);
+                                                                                                                                                                                                                                        font-size: 1rem;
+                                                                                                                                                                                                                                            transition: all 0.3s;
+                                                                                                                                                                                                                                            }
 
-input, select, textarea {
-    width: 100%;
-    padding: 16px 20px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    color: var(--light);
-    font-size: 1rem;
-    transition: all 0.3s;
-}
+                                                                                                                                                                                                                                            input:focus, select:focus, textarea:focus {
+                                                                                                                                                                                                                                                outline: none;
+                                                                                                                                                                                                                                                    border-color: var(--primary);
+                                                                                                                                                                                                                                                        background: rgba(255, 255, 255, 0.12);
+                                                                                                                                                                                                                                                            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+                                                                                                                                                                                                                                                            }
 
-input:focus, select:focus, textarea:focus {
-    outline: none;
-    border-color: var(--primary);
-    background: rgba(255, 255, 255, 0.12);
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
-}
+                                                                                                                                                                                                                                                            /* ===== BUTTONS ===== */
+                                                                                                                                                                                                                                                            /* Targets: .next-btn, .choice-btn, .whatsapp-btn, #sendWhatsAppBtn */
+                                                                                                                                                                                                                                                            .next-btn,
+                                                                                                                                                                                                                                                            .choice-btn,
+                                                                                                                                                                                                                                                            .whatsapp-btn,
+                                                                                                                                                                                                                                                            button[onclick*="goTo"],
+                                                                                                                                                                                                                                                            button[style*="background: #0d9488"] {
+                                                                                                                                                                                                                                                                background: linear-gradient(135deg, var(--primary), #0d9488) !important;
+                                                                                                                                                                                                                                                                    border: none;
+                                                                                                                                                                                                                                                                        border-radius: 12px;
+                                                                                                                                                                                                                                                                            padding: 18px 30px;
+                                                                                                                                                                                                                                                                                color: white;
+                                                                                                                                                                                                                                                                                    font-size: 1.2rem;
+                                                                                                                                                                                                                                                                                        font-weight: 700;
+                                                                                                                                                                                                                                                                                            cursor: pointer;
+                                                                                                                                                                                                                                                                                                width: 100%;
+                                                                                                                                                                                                                                                                                                    transition: all 0.3s;
+                                                                                                                                                                                                                                                                                                        margin-top: 10px;
+                                                                                                                                                                                                                                                                                                            display: block;
+                                                                                                                                                                                                                                                                                                                text-decoration: none;
+                                                                                                                                                                                                                                                                                                                    text-align: center;
+                                                                                                                                                                                                                                                                                                                    }
 
-/* 🔘 BUTTONS */
-.btn {
-    background: linear-gradient(135deg, var(--primary), #0d9488);
-    border: none;
-    border-radius: 12px;
-    padding: 18px 30px;
-    color: white;
-    font-size: 1.2rem;
-    font-weight: 700;
-    cursor: pointer;
-    width: 100%;
-    transition: all 0.3s;
-    margin-top: 10px;
-    display: block;
-    text-decoration: none;
-    text-align: center;
-}
+                                                                                                                                                                                                                                                                                                                    .next-btn:hover,
+                                                                                                                                                                                                                                                                                                                    .choice-btn:hover,
+                                                                                                                                                                                                                                                                                                                    .whatsapp-btn:hover {
+                                                                                                                                                                                                                                                                                                                        transform: translateY(-3px);
+                                                                                                                                                                                                                                                                                                                            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+                                                                                                                                                                                                                                                                                                                            }
 
-.btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
-}
+                                                                                                                                                                                                                                                                                                                            /* Purple buttons */
+                                                                                                                                                                                                                                                                                                                            .choice-btn.option2 {
+                                                                                                                                                                                                                                                                                                                                background: linear-gradient(135deg, var(--secondary), #8b5cf6) !important;
+                                                                                                                                                                                                                                                                                                                                }
 
-.btn-secondary {
-    background: linear-gradient(135deg, var(--secondary), #8b5cf6);
-}
+                                                                                                                                                                                                                                                                                                                                .choice-btn.option2:hover {
+                                                                                                                                                                                                                                                                                                                                    box-shadow: 0 10px 25px rgba(124, 58, 237, 0.4);
+                                                                                                                                                                                                                                                                                                                                    }
 
-.btn-secondary:hover {
-    box-shadow: 0 10px 25px rgba(124, 58, 237, 0.4);
-}
+                                                                                                                                                                                                                                                                                                                                    /* ===== SUMMARY BOXES ===== */
+                                                                                                                                                                                                                                                                                                                                    .summary-box {
+                                                                                                                                                                                                                                                                                                                                        background: rgba(255, 255, 255, 0.05);
+                                                                                                                                                                                                                                                                                                                                            border-radius: 16px;
+                                                                                                                                                                                                                                                                                                                                                padding: 25px;
+                                                                                                                                                                                                                                                                                                                                                    margin: 25px 0;
+                                                                                                                                                                                                                                                                                                                                                        border: 1px solid rgba(255, 255, 255, 0.08);
+                                                                                                                                                                                                                                                                                                                                                        }
 
-/* 🎨 GRID/CARD LAYOUTS */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 20px;
-    margin: 30px 0;
-}
+                                                                                                                                                                                                                                                                                                                                                        .summary-item {
+                                                                                                                                                                                                                                                                                                                                                            margin-bottom: 15px;
+                                                                                                                                                                                                                                                                                                                                                                padding-bottom: 15px;
+                                                                                                                                                                                                                                                                                                                                                                    border-bottom: 1px dashed #475569;
+                                                                                                                                                                                                                                                                                                                                                                    }
 
-.card {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 16px;
-    padding: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    transition: transform 0.3s;
-    cursor: pointer;
-}
+                                                                                                                                                                                                                                                                                                                                                                    .label {
+                                                                                                                                                                                                                                                                                                                                                                        font-weight: 700;
+                                                                                                                                                                                                                                                                                                                                                                            color: #cbd5e1;
+                                                                                                                                                                                                                                                                                                                                                                            }
 
-.card:hover {
-    transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.08);
-}
+                                                                                                                                                                                                                                                                                                                                                                            .value {
+                                                                                                                                                                                                                                                                                                                                                                                color: var(--primary);
+                                                                                                                                                                                                                                                                                                                                                                                    font-weight: 600;
+                                                                                                                                                                                                                                                                                                                                                                                    }
 
-/* ⚠️ MESSAGES */
-.error-msg {
-    background: rgba(239, 68, 68, 0.15);
-    color: #fca5a5;
-    padding: 15px;
-    border-radius: 10px;
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    margin: 20px 0;
-    text-align: center;
-}
+                                                                                                                                                                                                                                                                                                                                                                                    /* ===== PRICE DISPLAY ===== */
+                                                                                                                                                                                                                                                                                                                                                                                    .final-price {
+                                                                                                                                                                                                                                                                                                                                                                                        background: linear-gradient(135deg, var(--success), #059669);
+                                                                                                                                                                                                                                                                                                                                                                                            color: white;
+                                                                                                                                                                                                                                                                                                                                                                                                padding: 25px;
+                                                                                                                                                                                                                                                                                                                                                                                                    border-radius: 12px;
+                                                                                                                                                                                                                                                                                                                                                                                                        text-align: center;
+                                                                                                                                                                                                                                                                                                                                                                                                            margin: 30px 0;
+                                                                                                                                                                                                                                                                                                                                                                                                                font-size: 2rem;
+                                                                                                                                                                                                                                                                                                                                                                                                                    font-weight: 800;
+                                                                                                                                                                                                                                                                                                                                                                                                                        box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+                                                                                                                                                                                                                                                                                                                                                                                                                        }
 
-.success-msg {
-    background: rgba(16, 185, 129, 0.15);
-    color: #a7f3d0;
-    padding: 15px;
-    border-radius: 10px;
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    margin: 20px 0;
-    text-align: center;
-}
+                                                                                                                                                                                                                                                                                                                                                                                                                        /* ===== ERROR/SUCCESS MESSAGES ===== */
+                                                                                                                                                                                                                                                                                                                                                                                                                        .error-msg,
+                                                                                                                                                                                                                                                                                                                                                                                                                        #errorMsg {
+                                                                                                                                                                                                                                                                                                                                                                                                                            background: rgba(239, 68, 68, 0.15);
+                                                                                                                                                                                                                                                                                                                                                                                                                                color: #fca5a5;
+                                                                                                                                                                                                                                                                                                                                                                                                                                    padding: 15px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                        border-radius: 10px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                            border: 1px solid rgba(239, 68, 68, 0.3);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                margin: 20px 0;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    text-align: center;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    }
 
-/* 📱 RESPONSIVE */
-@media (max-width: 768px) {
-    .container {
-        padding: 30px 20px;
-    }
-    h1 {
-        font-size: 2rem;
-    }
-    .grid {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    }
-}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    .success-msg {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        background: rgba(16, 185, 129, 0.15);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            color: #a7f3d0;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding: 15px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                    border-radius: 10px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                        border: 1px solid rgba(16, 185, 129, 0.3);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin: 20px 0;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                text-align: center;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                /* ===== CANVAS STYLING (screen3.html) ===== */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                #previewArea {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    background: rgba(255, 255, 255, 0.05);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        border: 2px solid rgba(255, 255, 255, 0.1);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            border-radius: 16px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding: 20px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    margin: 30px auto;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    }
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    .controls {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        background: rgba(255, 255, 255, 0.05);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 20px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                border-radius: 16px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    margin: 20px 0;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    }
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    /* ===== RESPONSIVE ===== */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @media (max-width: 768px) {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        .card, .container {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding: 30px 20px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            h1 {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    font-size: 2rem;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                .next-btn, .whatsapp-btn {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        padding: 16px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                font-size: 1.1rem;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    }
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    /* ===== EMOJI STYLING ===== */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    .emoji {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        font-size: 1.4em;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        }
