@@ -131,11 +131,23 @@
     <h1>🎨 STEP 3: FILL YOUR GRIDS</h1>
     <p>Upload an image for each grid. Drag, resize, and rotate!</p>
 
-    <!-- 📐 THE A4 PREVIEW CANVAS -->
-    <div id="previewArea">
-        <!-- Grids will be drawn here by JavaScript -->
-        <canvas id="previewCanvas" width="600" height="850"></canvas>
-    </div>
+    <div id="previewArea" style="
+        background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+                border-radius: 16px;
+                    padding: 20px;
+                        margin: 30px auto;
+                            width: 95%;
+                                max-width: 1000px;
+                                    overflow: auto;
+                                        text-align: center;
+                                        ">
+                                            <canvas id="previewCanvas" width="2480" height="3508" style="
+                                                    max-width: 100%;
+                                                            height: auto;
+                                                                    border: 1px solid #ccc;
+                                                                        "></canvas>
+                                                                        </div>
 
     <!-- 🎯 CONTROLS FOR THE SELECTED GRID -->
     <div class="controls">
