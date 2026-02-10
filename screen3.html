@@ -130,24 +130,7 @@
 <body>
     <h1>🎨 STEP 3: FILL YOUR GRIDS</h1>
     <p>Upload an image for each grid. Drag, resize, and rotate!</p>
-
-    <div id="previewArea" style="
-        background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-                border-radius: 16px;
-                    padding: 20px;
-                        margin: 30px auto;
-                            width: 95%;
-                                max-width: 1000px;
-                                    overflow: auto;
-                                        text-align: center;
-                                        ">
-                                            <canvas id="previewCanvas" width="2480" height="3508" style="
-                                                    max-width: 100%;
-                                                            height: auto;
-                                                                    border: 1px solid #ccc;
-                                                                        "></canvas>
-                                                                        </div>
+   <canvas id="previewCanvas" width="1200" height="1696"></canvas>
 
     <!-- 🎯 CONTROLS FOR THE SELECTED GRID -->
     <div class="controls">
@@ -359,10 +342,53 @@ for (let row = 0; row < rows; row++) {
                 canvas.remove(activeObject);
                 canvas.renderAll();
             }}
-        // 💾 SAVE CANVAS AS IMAGE AND GO TO SUMMARY - FIXED VERSION
-function goToSummary() {
-    // 🆕 COUNT ONLY UNIQUE GRIDS WITH IMAGES (FIX FOR 5/4 BUG)
-    const filledGridsSet = new Set(); // Set stores only unique values
+        function goToSummary() {
+    // ... [your existing code to count grids, calculate price] ...
+
+    // 🆕 CREATE A HIGH-RESOLUTION CANVAS FOR PRINTING
+    const highResCanvas = document.createElement('canvas');
+    highResCanvas.width = 2480;  // Real A4 width at ~300 DPI
+    highResCanvas.height = 3508; // Real A4 height
+    const highResCtx = highResCanvas.getContext('2d');
+
+    // 🆕 SCALE UP AND DRAW THE CURRENT DESIGN
+    // First, hide the upload buttons/labels on the MAIN canvas
+    canvas.getObjects().forEach(obj => {
+        if (obj.name && (obj.name.startsWith('upload-btn-') || obj.name.startsWith('label-for-grid-'))) {
+            obj.visible = false;
+        }
+    });
+    canvas.renderAll();
+
+    // 🆕 Convert the main canvas to an image, then draw it scaled up
+    const mainCanvasDataURL = canvas.toDataURL('image/png');
+    const img = new Image();
+    img.onload = function() {
+        // Draw the main canvas image onto the high-res canvas, scaled up
+        highResCtx.drawImage(img, 0, 0, 1200, 1696,  // source size (your editing canvas)
+                                    0, 0, 2480, 3508); // destination size (A4)
+
+        // 🆕 NOW USE highResCanvas for the download
+        const finalDesignUrl = highResCanvas.toDataURL({
+            format: 'png',
+            quality: 1.0
+        });
+
+        // ... [rest of your existing download and alert code] ...
+        const downloadLink = document.createElement('a');
+        downloadLink.href = finalDesignUrl;
+        downloadLink.download = `SunduqVault-Design-Preview-${Date.now()}.png`;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+
+        alert(`✅ PERFECT! You filled ${actualFilledGrids} of ${totalGrids} grids.\n📱 Your HIGH-QUALITY A4 design preview has been downloaded.\nIMPORTANT: Send this image file when you place your WhatsApp order!\nNow going to order summary...`);
+
+        // GO TO SUMMARY SCREEN
+        window.location.href = 'screen4.html';
+    };
+    img.src = mainCanvasDataURL; // This triggers the onload function
+}
     
     canvas.getObjects().forEach(obj => {
         if (obj.name && obj.name.startsWith('image-for-grid-')) {
@@ -416,9 +442,9 @@ function goToSummary() {
     \nIMPORTANT: Send this image file when you place your WhatsApp order!
     \nNow going to order summary...`);
     
-    // GO TO SUMMARY SCREEN
+    //MMARY SCREEN
     window.location.href = 'screen4.html';
-}
+
 </script>
 </body>
 </html>
