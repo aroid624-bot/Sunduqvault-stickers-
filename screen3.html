@@ -257,6 +257,21 @@ for (let row = 0; row < rows; row++) {
                         
                         canvas.add(img);
                         canvas.renderAll();
+                        // ========== CRITICAL BUG FIX ==========
+                        // Remove the invisible upload button for this grid
+                        const buttonName = `upload-btn-${gridIndex}`;
+                        const uploadButton = canvas.getObjects().find(obj => obj.name === buttonName);
+                        if (uploadButton) {
+                            canvas.remove(uploadButton);
+                            }
+                            // Remove the "Click to upload" text label
+                            const labelName = `label-for-grid-${gridIndex}`;
+                            const label = canvas.getObjects().find(obj => obj.name === labelName);
+                            if (label) {
+                                canvas.remove(label);
+                                }
+                                canvas.renderAll(); // Update the canvas
+                                // ========== FIX ENDS ==========
                     });
                 };
                 reader.readAsDataURL(file);
