@@ -198,6 +198,12 @@ html
         <input type="number" id="quantity" value="1" min="1" max="10" style="width: 70px; text-align: center; font-size: 1.2rem; padding: 8px; border-radius: 8px; border: 2px solid var(--primary); background: rgba(255,255,255,0.1); color: white;">
         <button onclick="changeQuantity(1)" style="background: var(--primary); color: white; border: none; border-radius: 8px; width: 40px; height: 40px; font-size: 1.5rem; cursor: pointer;">+</button>
     </div>
+    <!-- 🔍 ZOOM CONTROLS -->
+<div style="display: flex; justify-content: center; gap: 20px; margin: 10px 0;">
+    <button onclick="zoomOut()" style="background: #0f766e; color: white; border: none; border-radius: 8px; padding: 8px 16px;">🔍- Zoom Out</button>
+    <button onclick="zoomIn()" style="background: #0f766e; color: white; border: none; border-radius: 8px; padding: 8px 16px;">🔍+ Zoom In</button>
+    <button onclick="zoomReset()" style="background: #64748b; color: white; border: none; border-radius: 8px; padding: 8px 16px;">↺ Reset</button>
+</div>
     <p style="color: #94a3b8; font-size: 0.9rem;">Each sheet = same design × quantity</p>
 </div>
 
@@ -250,6 +256,25 @@ for (let row = 0; row < rows; row++) {
             name: `grid-${gridIndex}`
         });
         canvas.add(rect);
+
+        // 🔍 ZOOM FUNCTIONS
+let zoomLevel = 1;
+function zoomIn() {
+    zoomLevel += 0.1;
+    canvas.setZoom(zoomLevel);
+    canvas.renderAll();
+}
+function zoomOut() {
+    zoomLevel -= 0.1;
+    if (zoomLevel < 0.5) zoomLevel = 0.5;
+    canvas.setZoom(zoomLevel);
+    canvas.renderAll();
+}
+function zoomReset() {
+    zoomLevel = 1;
+    canvas.setZoom(1);
+    canvas.renderAll();
+}
 
         // 🆕 CREATE AN INVISIBLE UPLOAD BUTTON OVER THE GRID
         // We'll make a transparent rectangle that acts as a button
