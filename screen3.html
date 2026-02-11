@@ -31,6 +31,47 @@ padding: 40px 20px;
 text-align: center;
 }
 
+/* 🚀 MAKE WHOLE SCREEN BIGGER FOR GITHUB */
+html, body {
+    width: 100%;
+        max-width: 100%;
+            overflow-x: hidden;
+            }
+
+            .container, .card, body > div {
+                width: 100% !important;
+                    max-width: 600px !important;
+                        margin-left: auto !important;
+                            margin-right: auto !important;
+                            }
+
+                            /* MAKE TEXT BIGGER */
+                            h1 {
+                                font-size: 2.5rem !important;  /* Bigger title */
+                                }
+
+                                p, .tagline, .subtitle {
+                                    font-size: 1.2rem !important;  /* Bigger text */
+                                    }
+
+                                    /* MAKE BUTTONS BIGGER */
+                                    .next-btn, .choice-btn, .whatsapp-btn, .btn {
+                                        padding: 20px 30px !important;
+                                            font-size: 1.3rem !important;
+                                            }
+
+                                            /* MAKE CANVAS CONTAINER BIGGER ON DESKTOP */
+                                            @media (min-width: 768px) {
+                                                #previewArea {
+                                                        max-width: 550px !important;  /* Even bigger on tablets */
+                                                            }
+                                                                
+                                                                    canvas {
+                                                                            transform: scale(1.1);  /* Slightly bigger canvas */
+                                                                                    transform-origin: center;
+                                                                                        }
+                                                                                        }
+
 /* Headers */
 h1 {
 font-size: 2.2rem;
@@ -58,9 +99,7 @@ margin-right: auto;
     /* NEW RESPONSIVE CODE */
     width: 100% !important;               /* Uses 95% of screen width */
     max-width: 450px !important;          /* Won't get too big on desktop */
-    height: auto !important; 
-    min height: 460px
-    /* Let height adjust naturally */
+    height: auto !important;     /* Let height adjust naturally */
     aspect-ratio: 1 / 1.414;              /* Perfect A4 Paper Ratio (1:√2) */
     display: flex;                        /* Helps center canvas */
     justify-content: center;
