@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -24,7 +24,7 @@ font-family: 'Segoe UI', system-ui, sans-serif;
 
 body {
 background: linear-gradient(135deg, var(--dark) 0%, #1e293b 100%);
-min-height: 1000px;
+min-height: 900px;
 color: var(--light);
 padding: 40px 20px;
 /* NO FLEX - natural flow **/
@@ -199,12 +199,7 @@ html
         <input type="number" id="quantity" value="1" min="1" max="10" style="width: 70px; text-align: center; font-size: 1.2rem; padding: 8px; border-radius: 8px; border: 2px solid var(--primary); background: rgba(255,255,255,0.1); color: white;">
         <button onclick="changeQuantity(1)" style="background: var(--primary); color: white; border: none; border-radius: 8px; width: 40px; height: 40px; font-size: 1.5rem; cursor: pointer;">+</button>
     </div>
-    <!-- 🔍 ZOOM CONTROLS -->
-<div style="display: flex; justify-content: center; gap: 20px; margin: 10px 0;">
-    <button onclick="zoomOut()" style="background: #0f766e; color: white; border: none; border-radius: 8px; padding: 8px 16px;">🔍- Zoom Out</button>
-    <button onclick="zoomIn()" style="background: #0f766e; color: white; border: none; border-radius: 8px; padding: 8px 16px;">🔍+ Zoom In</button>
-    <button onclick="zoomReset()" style="background: #64748b; color: white; border: none; border-radius: 8px; padding: 8px 16px;">↺ Reset</button>
-</div>
+    
     <p style="color: #94a3b8; font-size: 0.9rem;">Each sheet = same design × quantity</p>
 </div>
 
