@@ -24,11 +24,11 @@ font-family: 'Segoe UI', system-ui, sans-serif;
 
 body {
 background: linear-gradient(135deg, var(--dark) 0%, #1e293b 100%);
-min-height: 100vh;
+min-height: 1000px;
 color: var(--light);
 padding: 40px 20px;
 /* NO FLEX - natural flow **/
-min-width: 100vw;
+min-width: 500px;
 text-align: center;
 }
 
@@ -258,24 +258,7 @@ for (let row = 0; row < rows; row++) {
         });
         canvas.add(rect);
 
-        // 🔍 ZOOM FUNCTIONS
-let zoomLevel = 1;
-function zoomIn() {
-    zoomLevel += 0.1;
-    canvas.setZoom(zoomLevel);
-    canvas.renderAll();
-}
-function zoomOut() {
-    zoomLevel -= 0.1;
-    if (zoomLevel < 0.5) zoomLevel = 0.5;
-    canvas.setZoom(zoomLevel);
-    canvas.renderAll();
-}
-function zoomReset() {
-    zoomLevel = 1;
-    canvas.setZoom(1);
-    canvas.renderAll();
-}
+        
 
         // 🆕 CREATE AN INVISIBLE UPLOAD BUTTON OVER THE GRID
         // We'll make a transparent rectangle that acts as a button
@@ -490,6 +473,7 @@ tempCanvas.remove()
     \nNow going to order summary...`);
     
     // GO TO SUMMARY SCREEN
+    function goToSummary() {
     window.location.href = 'screen4.html';
 }
         javascript
