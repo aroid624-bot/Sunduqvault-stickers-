@@ -101,7 +101,7 @@ margin-right: auto;
     width: 100% !important;               /* Uses 95% of screen width */
     max-width: 450px !important;          /* Won't get too big on desktop */
     height: auto !important;     /* Let height adjust naturally */
-    aspect-ratio: 1 / 1.414;              /* Perfect A4 Paper Ratio (1:√2) */
+    /* Perfect A4 Paper Ratio (1:√2) */
     display: flex;                        /* Helps center canvas */
     justify-content: center;
     align-items: center;
@@ -252,6 +252,7 @@ for (let row = 0; row < rows; row++) {
             name: `grid-${gridIndex}`
         });
         canvas.add(rect);
+        canvas.setBackgroundColor('lightgray', canvas.renderAll.bind(canvas));
 
         
 
@@ -468,7 +469,6 @@ tempCanvas.remove()
     \nNow going to order summary...`);
     
     // GO TO SUMMARY SCREEN
-    function goToSummary() {
     window.location.href = 'screen4.html';
 }
         javascript
