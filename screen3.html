@@ -395,6 +395,8 @@ for (let row = 0; row < rows; row++) {
             }}
         // 💾 SAVE CANVAS AS IMAGE AND GO TO SUMMARY - FIXED VERSION
 function goToSummary() {
+    window.location.href = 'screen4.html'
+}
     // 🆕 COUNT ONLY UNIQUE GRIDS WITH IMAGES (FIX FOR 5/4 BUG)
     const filledGridsSet = new Set(); // Set stores only unique values
     
@@ -468,9 +470,8 @@ tempCanvas.remove()
     \nIMPORTANT: Send this image file when you place your WhatsApp order!
     \nNow going to order summary...`);
     
-    // GO TO SUMMARY SCREEN
-    window.location.href = 'screen4.html';
-}
+    
+    
 
 // QUANTITY CONTROL
 let quantity = 1;
