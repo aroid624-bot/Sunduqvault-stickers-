@@ -393,10 +393,8 @@ for (let row = 0; row < rows; row++) {
                 canvas.remove(activeObject);
                 canvas.renderAll();
             }}
-        // 💾 SAVE CANVAS AS IMAGE AND GO TO SUMMARY - FIXED VERSION
-function goToSummary() {
-    window.location.href = 'screen4.html'
-}
+
+    function goToSummary() {
     // 🆕 COUNT ONLY UNIQUE GRIDS WITH IMAGES (FIX FOR 5/4 BUG)
     const filledGridsSet = new Set(); // Set stores only unique values
     
@@ -432,31 +430,26 @@ function goToSummary() {
     });
     canvas.renderAll();
     
-    // 🆕 SAVE CANVAS AS IMAGE DATA URL
-// 🚀 BUG 2 FIX: CREATE HIGH-RESOLUTION CANVAS FOR DOWNLOAD
-// 1. Create a temporary HIGH-QUALITY canvas
-const tempCanvas = document.createElement('canvas');
-const scale = 3; // 3x resolution for super sharp prints
-tempCanvas.width = canvas.width * scale;
-tempCanvas.height = canvas.height * scale;
-const tempCtx = tempCanvas.getContext('2d');
+    // 🆕 CREATE HIGH-RESOLUTION CANVAS FOR DOWNLOAD
+    const tempCanvas = document.createElement('canvas');
+    const scale = 3; // 3x resolution for super sharp prints
+    tempCanvas.width = canvas.width * scale;
+    tempCanvas.height = canvas.height * scale;
+    const tempCtx = tempCanvas.getContext('2d');
 
-// 2. Fill with white background (important for stickers!)
-tempCtx.fillStyle = 'white';
-tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+    // Fill with white background
+    tempCtx.fillStyle = 'white';
+    tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
 
-// 3. Draw the original canvas SCALED UP with smooth rendering
-tempCtx.imageSmoothingEnabled = true;
-tempCtx.imageSmoothingQuality = 'high';
-tempCtx.drawImage(canvas.el, 0, 0, tempCanvas.width, tempCanvas.height);
+    // Draw the original canvas SCALED UP
+    tempCtx.imageSmoothingEnabled = true;
+    tempCtx.imageSmoothingQuality = 'high';
+    tempCtx.drawImage(canvas.el, 0, 0, tempCanvas.width, tempCanvas.height);
 
-// 4. Get the HIGH-QUALITY data URL from TEMP canvas
-const finalDesignUrl = tempCanvas.toDataURL('image/png', 1.0);
-
-// 5. Clean up the temporary canvas (optional)
-tempCanvas.remove()
+    // Get HIGH-QUALITY data URL
+    const finalDesignUrl = tempCanvas.toDataURL('image/png', 1.0);
     
-    // 🆕 MAKE USER DOWNLOAD THE PREVIEW
+    // DOWNLOAD the preview
     const downloadLink = document.createElement('a');
     downloadLink.href = finalDesignUrl;
     downloadLink.download = `SunduqVault-Design-Preview-${Date.now()}.png`;
@@ -464,26 +457,15 @@ tempCanvas.remove()
     downloadLink.click();
     document.body.removeChild(downloadLink);
     
-    // 🆕 SHOW ALERT WITH CORRECT GRID COUNT
+    // SHOW ALERT
     alert(`✅ PERFECT! You filled ${actualFilledGrids} of ${totalGrids} grids.
     \n📱 Your design preview has been downloaded.
     \nIMPORTANT: Send this image file when you place your WhatsApp order!
     \nNow going to order summary...`);
     
-    
-    
-
-// QUANTITY CONTROL
-let quantity = 1;
-
-function changeQuantity(change) {
-    const input = document.getElementById('quantity');
-    let newVal = parseInt(input.value) + change;
-    if (newVal < 1) newVal = 1;
-    if (newVal > 10) newVal = 10;
-    input.value = newVal;
-    quantity = newVal;
+    // 🚀 GO TO SUMMARY SCREEN
+    window.location.href = 'screen4.html';
 }
-</script>
+                    
 </body>
       </html>
