@@ -5,14 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🔄 Choose Your Path | SunduqVault</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* 🌙 DEEP THEME - PROFESSIONAL & MODERN */
+
+<style>
+        /* 🌙 DEEP THEME - GOLD & ROYAL */
         :root {
-            --primary: #0f766e;     /* Teal - Trust */
-            --secondary: #7c3aed;   /* Purple - Royalty */
-            --dark: #0f172a;        /* Dark Blue - Depth */
+            --primary: #ffd700;     /* Rich Gold - Trust & Luxury */
+            --secondary: #b8860b;   /* Dark Gold - Royalty */
+            --dark: #0f172a;        /* Deep Navy - Depth (keeping for contrast) */
             --light: #f8fafc;       /* Off White - Clean */
-            --accent: #f59e0b;      /* Amber - Energy */
+            --accent: #ffb347;      /* Warm Amber - Energy */
         }
         * {
             margin: 0;
@@ -62,11 +63,11 @@
         .question-card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.2);
             border-radius: 24px;
             padding: 40px 30px;
             margin-bottom: 50px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(255, 215, 0, 0.15);
         }
         .question-icon {
             font-size: 3.5rem;
@@ -91,11 +92,11 @@
             margin: 0 auto;
         }
         .choice-btn {
-            background: linear-gradient(135deg, var(--primary), #0d9488);
+            background: linear-gradient(135deg, var(--primary), #e6c200);
             border: none;
             border-radius: 20px;
             padding: 30px 25px;
-            color: white;
+            color: var(--dark);
             font-size: 1.6rem;
             font-weight: 700;
             cursor: pointer;
@@ -104,19 +105,19 @@
             justify-content: center;
             gap: 20px;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
             text-align: left;
         }
         .choice-btn:hover {
             transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.5);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.5);
         }
         .choice-btn.option2 {
-            background: linear-gradient(135deg, var(--secondary), #8b5cf6);
-            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+            background: linear-gradient(135deg, var(--secondary), #9e7600);
+            box-shadow: 0 10px 30px rgba(184, 134, 11, 0.3);
         }
         .choice-btn.option2:hover {
-            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.5);
+            box-shadow: 0 20px 40px rgba(184, 134, 11, 0.5);
         }
         .btn-icon {
             font-size: 2.5rem;
@@ -130,6 +131,7 @@
             font-weight: 400;
             opacity: 0.9;
             margin-top: 8px;
+            color: var(--dark);
         }
         /* 📱 RESPONSIVE */
         @media (min-width: 768px) {
@@ -152,10 +154,11 @@
             font-size: 0.9rem;
         }
         .highlight {
-            color: var(--accent);
+            color: var(--primary);
             font-weight: 700;
         }
-    </style>
+</style>
+
 </head>
 <body>
     <div class="container">
