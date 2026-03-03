@@ -6,170 +6,177 @@
     <title>Step 3: Grid Editor</title>
     <!-- 🔗 LOAD FABRIC.JS LIBRARY FOR IMAGE EDITING -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
-     <style>
             /* ===== SUNDUQVAULT GRID EDITOR STYLES ===== */
-:root {
---primary: #0f766e;
---dark: #0f172a;
---light: #f8fafc;
---accent: #f59e0b;
---gray: #64748b;
-}
+         <style>
+        :root {
+            --primary: #ffd700;
+            --secondary: #b8860b;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --accent: #ffb347;
+            --gray: #64748b;
+            --gold-glow: rgba(255, 215, 0, 0.3);
+        }
 
-* {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-font-family: 'Segoe UI', system-ui, sans-serif;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
 
-body {
-background: linear-gradient(135deg, var(--dark) 0%, #1e293b 100%);
-min-height: 900px;
-color: var(--light);
-padding: 40px 20px;
-/* NO FLEX - natural flow **/
-min-width: 500px;
-text-align: center;
-}
+        body {
+            background: linear-gradient(135deg, var(--dark) 0%, #1a1f2e 100%);
+            min-height: 100vh;
+            color: var(--light);
+            padding: 40px 20px;
+            text-align: center;
+        }
 
-/* 🚀 MAKE WHOLE SCREEN BIGGER FOR GITHUB */
-body {
-    width: 100%;
-        max-width: 100%;
-            overflow-x: hidden;
-            }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
 
-            .container, .card, body > div {
-                width: 100% !important;
-                    max-width: 600px !important;
-                        margin-left: auto !important;
-                            margin-right: auto !important;
-                            }
+        p {
+            color: #94a3b8;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-                            /* MAKE TEXT BIGGER */
-                            h1 {
-                                font-size: 2.5rem !important;  /* Bigger title */
-                                }
+        #previewArea {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            border-radius: 16px;
+            padding: 15px;
+            margin: 20px auto;
+            width: 100%;
+            max-width: 450px;
+            height: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: auto;
+            box-shadow: 0 10px 30px var(--gold-glow);
+        }
 
-                                p, .tagline, .subtitle {
-                                    font-size: 1.2rem !important;  /* Bigger text */
-                                    }
+        canvas {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--primary);
+        }
 
-                                    /* MAKE BUTTONS BIGGER */
-                                    .next-btn, .choice-btn, .whatsapp-btn, .btn {
-                                        padding: 20px 30px !important;
-                                            font-size: 1.3rem !important;
-                                            }
+        .controls {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 16px;
+            margin: 20px auto;
+            max-width: 600px;
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
 
-                                            /* MAKE CANVAS CONTAINER BIGGER ON DESKTOP */
-                                            @media (min-width: 768px) {
-                                                #previewArea {
-                                                        max-width: 550px !important;  /* Even bigger on tablets */
-                                                            }
-                                                                
-                                                                    canvas {
-                                                                            transform: scale(1.1);  /* Slightly bigger canvas */
-                                                                                    transform-origin: center;
-                                                                                        }
-                                                                                        }
+        .controls h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
 
-/* Headers */
-h1 {
-font-size: 2.2rem;
-margin-bottom: 15px;
-background: linear-gradient(90deg, var(--accent), var(--primary));
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-font-weight: 800;
-}
+        .controls button {
+            background: var(--primary);
+            color: var(--dark);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            margin: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-block;
+            width: auto;
+            transition: all 0.3s;
+        }
 
-p {
-color: #94a3b8;
-margin-bottom: 30px;
-max-width: 600px;
-margin-left: auto;
-margin-right: auto;
-}
-/* Canvas container */
-#previewArea {
-    background: rgba(255, 255, 255, 0.05) !important;
-    border: 2px solid rgba(255, 255, 255, 0.1) !important;
-    border-radius: 16px !important;
-    padding: 15px !important;
-    margin: 20px auto !important;
-    /* NEW RESPONSIVE CODE */
-    width: 100% !important;               /* Uses 95% of screen width */
-    max-width: 450px !important;          /* Won't get too big on desktop */
-    height: auto !important;     /* Let height adjust naturally */
-    /* Perfect A4 Paper Ratio (1:√2) */
-    display: flex;                        /* Helps center canvas */
-    justify-content: center;
-    align-items: center;
-    overflow: auto;                       /* Allows scrolling if needed */
-}
+        .controls button:hover {
+            background: #e6c200;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px var(--gold-glow);
+        }
 
-/* Controls */
-.controls {
-background: rgba(255, 255, 255, 0.05);
-padding: 20px;
-border-radius: 16px;
-margin: 20px auto;
-max-width: 600px;
-text-align: center;
-}
-.controls h3 {
-color: var(--light);
-margin-bottom: 15px;
-font-size: 1.3rem;
-}
-.controls button {
-background: var(--primary) !important;
-color: white !important;
-border: none !important;
-padding: 12px 24px !important;
-border-radius: 8px !important;
-margin: 8px !important;
-cursor: pointer !important;
-font-weight: 600 !important;
-display: inline-block !important;
-width: auto !important;
-}
+        input[type="file"] {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            border-radius: 8px;
+            color: var(--light);
+            padding: 10px;
+            margin: 10px;
+            width: 200px;
+        }
 
-.controls button:hover {
-background: #0d9488 !important;
-transform: translateY(-2px) !important;
-}
-input[type="file"] {
-background: rgba(255, 255, 255, 0.08);
-border: 2px solid rgba(255, 255, 255, 0.1);
-border-radius: 8px;
-color: var(--light);
-padding: 10px;
-margin: 10px;
-width: 200px;
-}
+        button[onclick="goToSummary()"] {
+            background: linear-gradient(135deg, var(--primary), #e6c200);
+            border: none;
+            border-radius: 12px;
+            padding: 18px 30px;
+            color: var(--dark);
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin: 30px auto;
+            display: block;
+            text-align: center;
+            max-width: 400px;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px var(--gold-glow);
+        }
 
-/* Navigation button */
-button[onclick="goToSummary()"] {
-background: linear-gradient(135deg, var(--primary), #0d9488) !important;
-border: none !important;
-border-radius: 12px !important;
-padding: 18px 30px !important;
-color: white !important;
-font-size: 1.2rem !important;
-font-weight: 700 !important;
-cursor: pointer !important;
-margin: 30px auto !important;
-display: block !important;
-text-align: center !important;
-max-width: 400px;
-}
-button[onclick="goToSummary()"]:hover {
-transform: translateY(-3px) !important;
-box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4) !important;
-}
+        button[onclick="goToSummary()"]:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px var(--gold-glow);
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .quantity-btn {
+            background: var(--primary);
+            color: var(--dark);
+            border: none;
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quantity-btn:hover {
+            background: #e6c200;
+            transform: scale(1.1);
+        }
+
+        #quantity {
+            width: 70px;
+            text-align: center;
+            font-size: 1.2rem;
+            padding: 8px;
+            border-radius: 8px;
+            border: 2px solid var(--primary);
+            background: rgba(255,255,255,0.1);
+            color: var(--light);
+        }
 </style>
+
 </head>
 <body>
     <h1>🎨 STEP 3: FILL YOUR GRIDS</h1>
