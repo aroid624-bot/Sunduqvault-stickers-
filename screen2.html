@@ -6,23 +6,25 @@
     <title>🔄 Choose Your Path | SunduqVault</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<style>
-        /* 🌙 DEEP THEME - GOLD & ROYAL */
+ <style>
         :root {
-            --primary: #ffd700;     /* Rich Gold - Trust & Luxury */
-            --secondary: #b8860b;   /* Dark Gold - Royalty */
-            --dark: #ffd700;      /* Deep Navy - Depth (keeping for contrast) */
-            --light: #f8fafc;       /* Off White - Clean */
-            --accent: #ffb347;      /* Warm Amber - Energy */
+            --primary: #ffd700;
+            --secondary: #b8860b;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --accent: #ffb347;
+            --gold-glow: rgba(255, 215, 0, 0.3);
         }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', system-ui, sans-serif;
         }
+
         body {
-            background: linear-gradient(135deg, var(--dark) 0%, #1e293b 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #1a1f2e 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -30,20 +32,23 @@
             padding: 20px;
             color: var(--light);
         }
+
         .container {
             max-width: 800px;
             width: 100%;
             text-align: center;
         }
-        /* 🏔️ HEADER */
+
         .header {
             margin-bottom: 50px;
         }
+
         .logo {
             font-size: 3rem;
             margin-bottom: 15px;
-            color: var(--accent);
+            color: var(--primary);
         }
+
         h1 {
             font-size: 2.8rem;
             margin-bottom: 15px;
@@ -52,14 +57,15 @@
             -webkit-text-fill-color: transparent;
             font-weight: 800;
         }
+
         .subtitle {
             font-size: 1.2rem;
-            color:#fff04bf9;
+            color: #cbd5e1;
             max-width: 600px;
             margin: 0 auto 40px;
             line-height: 1.6;
         }
-        /* ❓ QUESTION CARD */
+
         .question-card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
@@ -67,23 +73,26 @@
             border-radius: 24px;
             padding: 40px 30px;
             margin-bottom: 50px;
-            box-shadow: 0 20px 60px rgba(255, 215, 0, 0.15);
+            box-shadow: 0 20px 60px var(--gold-glow);
         }
+
         .question-icon {
             font-size: 3.5rem;
             color: var(--primary);
             margin-bottom: 20px;
         }
+
         .question-text {
             font-size: 1.8rem;
             font-weight: 700;
             margin-bottom: 10px;
         }
+
         .question-hint {
-            color: #eed620c0;
+            color: #94a3b8;
             font-size: 1rem;
         }
-        /* 🔘 CHOICE BUTTONS - BIG & BEAUTIFUL */
+
         .choices-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -91,12 +100,13 @@
             max-width: 600px;
             margin: 0 auto;
         }
+
         .choice-btn {
             background: linear-gradient(135deg, var(--primary), #e6c200);
             border: none;
             border-radius: 20px;
             padding: 30px 25px;
-            color: var(--dark);
+            color: #0f172a;
             font-size: 1.6rem;
             font-weight: 700;
             cursor: pointer;
@@ -104,36 +114,37 @@
             align-items: center;
             justify-content: center;
             gap: 20px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px var(--gold-glow);
             text-align: left;
         }
+
         .choice-btn:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px var(--gold-glow);
         }
+
         .choice-btn.option2 {
             background: linear-gradient(135deg, var(--secondary), #9e7600);
-            box-shadow: 0 10px 30px rgba(184, 134, 11, 0.3);
         }
-        .choice-btn.option2:hover {
-            box-shadow: 0 20px 40px rgba(184, 134, 11, 0.5);
-        }
+
         .btn-icon {
             font-size: 2.5rem;
         }
+
         .btn-text {
             flex: 1;
         }
+
         .btn-desc {
             display: block;
             font-size: 1rem;
             font-weight: 400;
             opacity: 0.9;
             margin-top: 8px;
-            color: var(--dark);
+            color: #0f172a;
         }
-        /* 📱 RESPONSIVE */
+
         @media (min-width: 768px) {
             .choices-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -147,17 +158,19 @@
                 margin-bottom: 15px;
             }
         }
-        /* 🔽 FOOTER */
+
         .footer-note {
             margin-top: 50px;
-            color: #4083e2;
+            color: #94a3b8;
             font-size: 0.9rem;
         }
+
         .highlight {
             color: var(--primary);
             font-weight: 700;
         }
-</style>
+ </style>
+            
 
 </head>
 <body>
