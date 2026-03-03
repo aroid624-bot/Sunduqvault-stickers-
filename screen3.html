@@ -215,212 +215,229 @@
         ✅ GO TO ORDER SUMMARY (STEP 4)
     </button>
 </div>
-
     <script>
-        // 🧠 GET DATA FROM PREVIOUS SCREEN
-        const orientation = localStorage.getItem('stickerOrientation');
-        const layout = localStorage.getItem('stickerLayout');
-        const totalGrids = parseInt(localStorage.getItem('stickerGrids'));
-        const pricePerGrid = parseFloat(localStorage.getItem('pricePerGrid'));
+    // 🧠 GET DATA
+    const layout = localStorage.getItem('stickerLayout');
+    const totalGrids = parseInt(localStorage.getItem('stickerGrids'));
+    const pricePerGrid = parseFloat(localStorage.getItem('pricePerGrid'));
 
-        // 🎨 SETUP FABRIC CANVAS
-        const canvas = new fabric.Canvas('previewCanvas');
-        const canvasWidth = 300;
-        const canvasHeight = 460 ;
-        let activeGridIndex = null;
+    // 🎨 SETUP CANVAS
+    const canvas = new fabric.Canvas('previewCanvas');
+    const canvasWidth = 300;
+    const canvasHeight = 460;
+    canvas.setWidth(canvasWidth);
+    canvas.setHeight(canvasHeight);
 
-        // 📏 CALCULATE GRID POSITIONS (SIMPLIFIED MATH)
-        let gridWidth, gridHeight, cols, rows;
-        if (layout === 'full') { cols = 1; rows = 1; }
-        if (layout === 'half') { cols = 1; rows = 2; } // Portrait: 2 vertical grids
-        if (layout === 'quarter') { cols = 2; rows = 2; }
-        if (layout === 'eight') { cols = 2; rows = 4; }
+    // 📐 GRID CALCULATION
+    let cols = 1, rows = 1;
+    if (layout === 'full') { cols = 1; rows = 1; }
+    if (layout === 'half') { cols = 1; rows = 2; }
+    if (layout === 'quarter') { cols = 2; rows = 2; }
+    if (layout === 'eight') { cols = 2; rows = 4; }
 
-        gridWidth = canvasWidth / cols;
-        gridHeight = canvasHeight / rows;
+    const gridWidth = canvasWidth / cols;
+    const gridHeight = canvasHeight / rows;
 
-       // 🟦 DRAW THE EMPTY GRIDS WITH UPLOAD BUTTONS
-for (let row = 0; row < rows; row++) {
-    for (let col = 0; col < cols; col++) {
-        const gridIndex = row * cols + col;
-        if (gridIndex >= totalGrids) break;
+    // 🟩 TRACK FILLED GRIDS
+    const filledGrids = new Array(totalGrids).fill(false);
 
-        // Create the grid rectangle
-        const rect = new fabric.Rect({
-            left: col * gridWidth,
-            top: row * gridHeight,
-            width: gridWidth - 2,
-            height: gridHeight - 2,
-            fill: 'white',
-            stroke: '#0d9488',
-            strokeWidth: 2,
-            selectable: false,
-            name: `grid-${gridIndex}`
-        });
-        canvas.add(rect);
-        canvas.setBackgroundColor('lightgray', canvas.renderAll.bind(canvas));
+    // 🟦 DRAW GRIDS + UPLOAD BUTTONS
+    for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+            const gridIndex = row * cols + col;
+            if (gridIndex >= totalGrids) break;
 
-        
+            // Grid rectangle
+            const rect = new fabric.Rect({
+                left: col * gridWidth + 2,
+                top: row * gridHeight + 2,
+                width: gridWidth - 4,
+                height: gridHeight - 4,
+                fill: 'white',
+                stroke: '#1a1a1a',
+                strokeWidth: 2,
+                selectable: false,
+                name: `grid-${gridIndex}`
+            });
+            canvas.add(rect);
 
-        // 🆕 CREATE AN INVISIBLE UPLOAD BUTTON OVER THE GRID
-        // We'll make a transparent rectangle that acts as a button
-        const buttonZone = new fabric.Rect({
-            left: col * gridWidth,
-            top: row * gridHeight,
-            width: gridWidth - 2,
-            height: gridHeight - 2,
-            fill: 'rgba(13, 148, 136, 0.05)', // Almost transparent
-            stroke: 'transparent',
-            selectable: false,
-            name: `upload-btn-${gridIndex}`,
-            hoverCursor: 'pointer'
-        });
-        
-        // 🆕 WHEN THIS INVISIBLE BUTTON IS CLICKED
-        buttonZone.on('mousedown', function() {
-            // Create a hidden file input
-            const fileInput = document.createElement('input');
-            fileInput.type = 'file';
-            fileInput.accept = 'image/*';
-            fileInput.style.display = 'none';
-            
-            // When a file is chosen
-            fileInput.onchange = function(e) {
-                const file = e.target.files[0];
-                if (!file) return;
-                
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    fabric.Image.fromURL(event.target.result, function(img) {
-                        // Scale image to fit grid
-                        const scale = Math.min(
-                            (gridWidth - 20) / img.width,
-                            (gridHeight - 20) / img.height
-                        );
-                        img.scale(scale);
-                        
-                        // Center in the grid
-                        img.set({
-                            left: col * gridWidth + (gridWidth / 2),
-                            top: row * gridHeight + (gridHeight / 2),
-                            originX: 'center',
-                            originY: 'center',
-                            name: `image-for-grid-${gridIndex}`,
-                            selectable: true // ✅ User can now click and rotate this image!
-                        });
-                        
-                        canvas.add(img);
-                        canvas.renderAll();
-                    });
-                };
-                reader.readAsDataURL(file);
-            };
-            
-            // Trigger the file selection dialog
-            document.body.appendChild(fileInput);
-            fileInput.click();
-            document.body.removeChild(fileInput);
-        });
-        
-        canvas.add(buttonZone);
-        
-        // 🆕 ADD A TEXT LABEL INSIDE EMPTY GRID
-        const labelText = new fabric.Text(`Grid ${gridIndex + 1}\n(Click to upload)`, {
-            left: col * gridWidth + (gridWidth / 2),
-            top: row * gridHeight + (gridHeight / 2),
-            originX: 'center',
-            originY: 'center',
-            fontSize: 12,
-            fill: '#64748b',
-            textAlign: 'center',
-            selectable: false,
-            name: `label-for-grid-${gridIndex}`
-        });
-        canvas.add(labelText);
+            // 🆕 UPLOAD BUTTON (only if grid empty)
+            if (!filledGrids[gridIndex]) {
+                const uploadZone = new fabric.Rect({
+                    left: col * gridWidth + 2,
+                    top: row * gridHeight + 2,
+                    width: gridWidth - 4,
+                    height: gridHeight - 4,
+                    fill: 'rgba(0,0,0,0.01)',
+                    stroke: 'transparent',
+                    selectable: false,
+                    name: `upload-${gridIndex}`,
+                    hoverCursor: 'pointer',
+                    hasControls: false,
+                    hasBorders: false,
+                    lockMovementX: true,
+                    lockMovementY: true
+                });
+
+                uploadZone.on('mousedown', function() {
+                    if (filledGrids[gridIndex]) {
+                        alert('✅ Grid already has an image!');
+                        return;
+                    }
+
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = 'image/*';
+
+                    input.onchange = function(e) {
+                        const file = e.target.files[0];
+                        if (!file) return;
+
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            fabric.Image.fromURL(event.target.result, function(img) {
+                                // Scale to fit grid
+                                const scale = Math.min(
+                                    (gridWidth - 20) / img.width,
+                                    (gridHeight - 20) / img.height
+                                );
+                                img.scale(scale);
+
+                                // Position in center
+                                const centerX = col * gridWidth + (gridWidth / 2);
+                                const centerY = row * gridHeight + (gridHeight / 2);
+
+                                img.set({
+                                    left: centerX,
+                                    top: centerY,
+                                    originX: 'center',
+                                    originY: 'center',
+                                    name: `image-${gridIndex}`,
+                                    selectable: true,
+                                    hasControls: true,
+                                    hasBorders: true,
+                                    lockMovementX: false,
+                                    lockMovementY: false
+                                });
+
+                                // 🚫 BOUNDARY LOCK
+                                img.setCoords = function() {
+                                    fabric.Image.prototype.setCoords.call(this);
+                                    const minX = col * gridWidth + 10;
+                                    const maxX = (col + 1) * gridWidth - 10 - (this.width * this.scaleX);
+                                    const minY = row * gridHeight + 10;
+                                    const maxY = (row + 1) * gridHeight - 10 - (this.height * this.scaleY);
+
+                                    if (this.left < minX) this.left = minX;
+                                    if (this.left > maxX) this.left = maxX;
+                                    if (this.top < minY) this.top = minY;
+                                    if (this.top > maxY) this.top = maxY;
+                                };
+
+                                canvas.add(img);
+                                filledGrids[gridIndex] = true;
+                                canvas.remove(uploadZone);
+
+                                // Remove label
+                                const label = canvas.getObjects().find(obj => obj.name === `label-${gridIndex}`);
+                                if (label) canvas.remove(label);
+
+                                canvas.renderAll();
+                            });
+                        };
+                        reader.readAsDataURL(file);
+                    };
+                    input.click();
+                });
+
+                canvas.add(uploadZone);
+            }
+
+            // 📝 TEXT LABEL
+            if (!filledGrids[gridIndex]) {
+                const label = new fabric.Text(`Grid ${gridIndex + 1}\n⬆️`, {
+                    left: col * gridWidth + (gridWidth / 2),
+                    top: row * gridHeight + (gridHeight / 2),
+                    originX: 'center',
+                    originY: 'center',
+                    fontSize: 12,
+                    fill: '#1a1a1a',
+                    textAlign: 'center',
+                    selectable: false,
+                    name: `label-${gridIndex}`
+                });
+                canvas.add(label);
+            }
+        }
     }
-}
 
-                // Make grid clickable to select
-                rect.on('mousedown', () => {
-                    activeGridIndex = gridIndex;
-                    alert(`Grid ${gridIndex + 1} selected! Now upload an image for it.`);
-                });
-        
-
-        // 📤 HANDLE IMAGE UPLOAD FOR THE SELECTED GRID
-        document.getElementById('imageUpload').onchange = function(e) {
-            if (activeGridIndex === null) {
-                alert("⚠️ Click on a grid first to select it!");
-                return;
-            }
-            const file = e.target.files[0];
-            const reader = new FileReader();
-
-            reader.onload = function(event) {
-                fabric.Image.fromURL(event.target.result, function(img) {
-                    // Scale image to fit the grid
-                    img.scaleToWidth(gridWidth - 10);
-                    img.scaleToHeight(gridHeight - 10);
-
-                    // Center it in the selected grid
-                    const col = activeGridIndex % cols;
-                    const row = Math.floor(activeGridIndex / cols);
-                    img.set({
-                        left: col * gridWidth + (gridWidth / 2),
-                        top: row * gridHeight + (gridHeight / 2),
-                        originX: 'center',
-                        originY: 'center',
-                        name: `image-for-grid-${activeGridIndex}`
-                    });
-
-                    canvas.add(img);
-                    canvas.renderAll();
-                });
-            };
-            reader.readAsDataURL(file);
-        };
-
-        // 🔄 ROTATE THE IMAGE IN THE SELECTED GRID
-        function rotateImage() {
-            const activeObject = canvas.getActiveObject();
-            if (activeObject && activeObject.name && activeObject.name.startsWith('image-for-grid-')) {
-                activeObject.rotate((activeObject.angle || 0) + 15);
-                canvas.renderAll();
-            } else {
-                alert("Select an image by clicking on it first!");
-            }
+    // 🔄 ROTATE
+    function rotateImage() {
+        const obj = canvas.getActiveObject();
+        if (obj && obj.name?.startsWith('image-')) {
+            obj.rotate((obj.angle || 0) + 15);
+            canvas.renderAll();
+        } else {
+            alert('Select an image first!');
         }
+    }
 
-        // 🗑️ DELETE THE IMAGE FROM THE SELECTED GRID
-        function deleteImage() {
-            const activeObject = canvas.getActiveObject();
-            if (activeObject) {
-                canvas.remove(activeObject);
-                canvas.renderAll();
-            }}
+    // 🗑️ DELETE
+    function deleteImage() {
+        const obj = canvas.getActiveObject();
+        if (obj && obj.name?.startsWith('image-')) {
+            const gridIndex = parseInt(obj.name.split('-')[1]);
+            filledGrids[gridIndex] = false;
+            canvas.remove(obj);
 
+            // Refresh page to restore upload button (simplest fix)
+            location.reload();
+        }
+    }
+
+    // 💾 GO TO SUMMARY
     function goToSummary() {
-    // Count images
-    let filledCount = 0;
-    canvas.getObjects().forEach(obj => {
-        if (obj.name && obj.name.startsWith('image-for-grid-')) {
-            filledCount++;
-        }
-    });
-    
-    // Calculate price
-    const totalPrice = filledCount * pricePerGrid;
-    
-    // Save data
-    localStorage.setItem('filledGrids', filledCount);
-    localStorage.setItem('totalPrice', totalPrice);
-    
-    // Simple alert
-    alert(`✅ You filled ${filledCount} of ${totalGrids} grids. Total: Rs.${totalPrice}`);
-    
-    // REDIRECT — THIS MUST WORK
-    window.location.href = 'screen4.html';
-        }
-    </script>                
+        let filledCount = 0;
+        canvas.getObjects().forEach(obj => {
+            if (obj.name?.startsWith('image-')) filledCount++;
+        });
+
+        const totalPrice = filledCount * pricePerGrid;
+        localStorage.setItem('filledGrids', filledCount);
+        localStorage.setItem('totalPrice', totalPrice);
+
+        // 🖼️ HIGH-RES DOWNLOAD
+        const tempCanvas = document.createElement('canvas');
+        const scale = 3;
+        tempCanvas.width = canvas.width * scale;
+        tempCanvas.height = canvas.height * scale;
+        const tempCtx = tempCanvas.getContext('2d');
+
+        tempCtx.fillStyle = 'white';
+        tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+        tempCtx.drawImage(canvas.el, 0, 0, tempCanvas.width, tempCanvas.height);
+
+        const link = document.createElement('a');
+        link.href = tempCanvas.toDataURL('image/png', 1.0);
+        link.download = `SunduqVault-${Date.now()}.png`;
+        link.click();
+
+        alert(`✅ You filled ${filledCount} of ${totalGrids} grids! Total: Rs.${totalPrice}`);
+        window.location.href = 'screen4.html';
+    }
+
+    // 🔢 QUANTITY
+    let quantity = 1;
+    function changeQuantity(change) {
+        const input = document.getElementById('quantity');
+        let newVal = parseInt(input.value) + change;
+        if (newVal < 1) newVal = 1;
+        if (newVal > 10) newVal = 10;
+        input.value = newVal;
+        quantity = newVal;
+    }
+                        </script>
+
+                
 </body>
       </html>
