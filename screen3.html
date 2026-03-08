@@ -355,46 +355,70 @@
             location.reload(); // Simplest way to restore click area
         }
     }
-
-    // === GO TO SUMMARY (SIMPLIFIED, GUARANTEED TO WORK) ===
     function goToSummary() {
-        // Count images
-        let filledCount = 0;
-        canvas.getObjects().forEach(obj => {
-            if (obj.name?.startsWith('image-')) filledCount++;
-        });
+    let filledCount = 0;
+    canvas.getObjects().forEach(obj => {
+        if (obj.name?.startsWith('image-')) filledCount++;
+    });
 
-        // Calculate price
-        const totalPrice = filledCount * pricePerGrid;
+    const totalPrice = filledCount * pricePerGrid;
+    localStorage.setItem('filledGrids', filledCount);
+    localStorage.setItem('totalPrice', totalPrice);
 
-        // Save
-        localStorage.setItem('filledGrids', filledCount);
-        localStorage.setItem('totalPrice', totalPrice);
+    // 🚀 CREATE TRUE A4 CANVAS (2480 x 3508 px)
+    const printCanvas = document.createElement('canvas');
+    printCanvas.width = 2480;  // A4 width at 300 DPI
+    printCanvas.height = 3508;  // A4 height at 300 DPI
+    const ctx = printCanvas.getContext('2d');
 
-        // Download (simple version)
-        const dataURL = canvas.toDataURL('image/png');
-        const link = document.createElement('a');
-        link.href = dataURL;
-        link.download = `design-${Date.now()}.png`;
-        link.click();
+    // White background
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, printCanvas.width, printCanvas.height);
 
-        alert(`✅ You filled ${filledCount} of ${totalGrids} grids. Total: Rs.${totalPrice}`);
+    // Scale from editing canvas to A4
+    const scaleX = printCanvas.width / canvas.width;
+    const scaleY = printCanvas.height / canvas.height;
 
-        // REDIRECT — MUST WORK
-        window.location.href = 'screen4.html';
+    // Draw each grid and image
+    for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+            const gridIndex = row * cols + col;
+            if (gridIndex >= totalGrids) break;
+
+            // Draw grid border
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.lineWidth = 4;
+            ctx.strokeRect(
+                col * gridWidth * scaleX,
+                row * gridHeight * scaleY,
+                gridWidth * scaleX,
+                gridHeight * scaleY
+            );
+
+            // Find image for this grid
+            const imgObj = canvas.getObjects().find(obj => obj.name === `image-${gridIndex}`);
+            if (imgObj && imgObj._element) {
+                // Calculate position and size
+                const imgX = col * gridWidth * scaleX + (gridWidth * scaleX / 2) - (imgObj.width * imgObj.scaleX * scaleX / 2);
+                const imgY = row * gridHeight * scaleY + (gridHeight * scaleY / 2) - (imgObj.height * imgObj.scaleY * scaleY / 2);
+                const imgW = imgObj.width * imgObj.scaleX * scaleX;
+                const imgH = imgObj.height * imgObj.scaleY * scaleY;
+
+                // Draw image
+                ctx.drawImage(imgObj._element, imgX, imgY, imgW, imgH);
+            }
+        }
     }
 
-    // === QUANTITY ===
-    let quantity = 1;
-    function changeQuantity(change) {
-        const input = document.getElementById('quantity');
-        let newVal = parseInt(input.value) + change;
-        if (newVal < 1) newVal = 1;
-        if (newVal > 10) newVal = 10;
-        input.value = newVal;
-        quantity = newVal;
-        localStorage.setItem('stickerQuantity', quantity);
-    }
-        </script>
+    // Download
+    const link = document.createElement('a');
+    link.href = printCanvas.toDataURL('image/png', 1.0);
+    link.download = `SunduqVault-A4-${Date.now()}.png`;
+    link.click();
+
+    alert(`✅ ${filledCount} grids filled. A4 quality download ready!`);
+    window.location.href = 'screen4.html';
+}
+</script>
 </body>
                 </html>
