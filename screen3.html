@@ -27,10 +27,8 @@
         h1 {
             font-size: 2rem;
             margin-bottom: 15px;
-            color: var(--dark);
         }
         p {
-            color: var(--dark);
             margin-bottom: 20px;
         }
         #previewArea {
@@ -59,10 +57,6 @@
             margin: 20px auto;
             max-width: 600px;
             border: 2px solid var(--dark);
-        }
-        .controls h3 {
-            color: var(--dark);
-            margin-bottom: 15px;
         }
         .controls button {
             background: var(--dark);
@@ -184,7 +178,6 @@
 
         // Track filled grids
         const filledGrids = new Array(totalGrids).fill(false);
-        let currentSelectedGrid = null;
 
         // ========== DRAW GRIDS AND CLICKABLE AREAS ==========
         for (let row = 0; row < rows; row++) {
@@ -353,40 +346,58 @@
             }
         }
 
-        // ========== GO TO SUMMARY ==========
-        function goToSummary() {
-            let filledCount = 0;
-            canvas.getObjects().forEach(obj => {
-                if (obj.name && obj.name.startsWith('image-')) filledCount++;
-            });
-
-            const totalPrice = filledCount * pricePerGrid;
-            const quantity = parseInt(document.getElementById('quantity').value) || 1;
-
-            localStorage.setItem('filledGrids', filledCount);
-            localStorage.setItem('totalPrice', totalPrice * quantity);
-            localStorage.setItem('stickerQuantity', quantity);
-
-            if (filledCount === 0) {
-                alert('⚠️ Please add at least one image to a grid before continuing!');
-                return;
-            }
-
-            alert(`✅ You filled ${filledCount} of ${totalGrids} grids. Total: Rs.${totalPrice * quantity}`);
-            window.location.href = 'screen4.html';
-        }
-
         // ========== QUANTITY CONTROL ==========
-        let quantity = 1;
+        let currentQuantity = 1;
         function changeQuantity(change) {
             const input = document.getElementById('quantity');
             let newVal = parseInt(input.value) + change;
             if (newVal < 1) newVal = 1;
             if (newVal > 10) newVal = 10;
             input.value = newVal;
-            quantity = newVal;
+            currentQuantity = newVal;
+            localStorage.setItem('stickerQuantity', currentQuantity);
+        }
+
+        // ========== GO TO SUMMARY (WITH QUANTITY) ==========
+        function goToSummary() {
+            // Count filled grids
+            let filledCount = 0;
+            canvas.getObjects().forEach(obj => {
+                if (obj.name && obj.name.startsWith('image-')) filledCount++;
+            });
+
+            if (filledCount === 0) {
+                alert('⚠️ Please add at least one image to a grid before continuing!');
+                return;
+            }
+
+            // Get quantity
+            const quantity = parseInt(document.getElementById('quantity').value) || 1;
+            
+            // Calculate price
+            const subtotal = filledCount * pricePerGrid;
+            const totalPrice = subtotal * quantity;
+
+            // Save to localStorage
+            localStorage.setItem('filledGrids', filledCount);
+            localStorage.setItem('totalPrice', totalPrice);
             localStorage.setItem('stickerQuantity', quantity);
+            localStorage.setItem('stickerSubtotal', subtotal);
+
+            alert(`✅ You filled ${filledCount} of ${totalGrids} grids.\nQuantity: ${quantity} sheet(s)\nTotal: Rs.${totalPrice}`);
+
+            // Redirect to summary page
+            window.location.href = 'screen4.html';
+        }
+
+        // Initialize quantity from localStorage if exists
+        if (localStorage.getItem('stickerQuantity')) {
+            const savedQty = parseInt(localStorage.getItem('stickerQuantity'));
+            if (!isNaN(savedQty) && savedQty >= 1 && savedQty <= 10) {
+                document.getElementById('quantity').value = savedQty;
+                currentQuantity = savedQty;
+            }
         }
     </script>
 </body>
-</html>
+    </html>
