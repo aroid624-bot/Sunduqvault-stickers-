@@ -7,33 +7,23 @@
     <style>
         :root {
             --primary: #ffd700;
-            --secondary: #b8860b;
             --dark: #1a1a1a;
-            --light: #ffffff;
-            --accent: #ffb347;
-            --success: #ffd700;
-            --danger: #ff4444;
-            --gray: #666666;
             --gold-glow: rgba(255, 215, 0, 0.5);
         }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', system-ui, sans-serif;
         }
-
         body {
             background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
             min-height: 100vh;
-            color: var(--dark);
             padding: 40px 20px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
-
         .card {
             max-width: 700px;
             width: 100%;
@@ -44,38 +34,28 @@
             padding: 40px 30px;
             box-shadow: 0 20px 60px var(--gold-glow);
         }
-
         h1 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             margin-bottom: 10px;
-            color: var(--dark);
-            font-weight: 800;
             text-align: center;
+            color: var(--dark);
         }
-
         .subtitle {
-            font-size: 1.1rem;
-            color: var(--dark);
             text-align: center;
-            margin-bottom: 40px;
-            line-height: 1.6;
+            margin-bottom: 30px;
+            color: var(--dark);
         }
-
         .summary-box {
             background: rgba(255, 255, 255, 0.3);
             border-radius: 16px;
             padding: 25px;
-            margin: 25px 0;
+            margin: 20px 0;
             border: 2px solid var(--dark);
         }
-
         .summary-box h3 {
-            color: var(--dark);
             margin-bottom: 20px;
             text-align: center;
-            font-size: 1.4rem;
         }
-
         .summary-item {
             margin-bottom: 15px;
             padding-bottom: 15px;
@@ -83,22 +63,12 @@
             display: flex;
             justify-content: space-between;
         }
-
         .summary-item:last-child {
             border-bottom: none;
-            margin-bottom: 0;
         }
-
         .label {
             font-weight: 700;
-            color: var(--dark);
         }
-
-        .value {
-            color: var(--dark);
-            font-weight: 600;
-        }
-
         .final-price {
             background: var(--dark);
             color: var(--primary);
@@ -106,96 +76,94 @@
             border-radius: 12px;
             text-align: center;
             margin: 30px 0;
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 800;
-            box-shadow: 0 10px 20px var(--gold-glow);
         }
-
         .whatsapp-btn {
-            background: var(--dark) !important;
-            border: none !important;
-            border-radius: 12px !important;
-            padding: 20px 30px !important;
-            color: var(--primary) !important;
-            font-size: 1.3rem !important;
-            font-weight: 700 !important;
-            cursor: pointer !important;
-            width: 100% !important;
-            transition: all 0.3s !important;
-            margin-top: 20px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 12px !important;
-            text-decoration: none !important;
+            background: var(--dark);
+            border: none;
+            border-radius: 12px;
+            padding: 18px 30px;
+            color: var(--primary);
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
-
         .whatsapp-btn:hover {
-            transform: translateY(-3px) !important;
-            box-shadow: 0 10px 25px var(--gold-glow) !important;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px var(--gold-glow);
         }
-
         .error-msg {
-            background: rgba(255, 68, 68, 0.2);
-            color: var(--dark);
+            background: rgba(255,68,68,0.2);
             padding: 20px;
             border-radius: 10px;
-            text-align: center;
             border: 2px solid var(--dark);
-            margin-bottom: 25px;
-            font-weight: 600;
-        }
-
-        p {
             text-align: center;
-            color: var(--dark);
-            margin-top: 25px;
-            font-size: 0.95rem;
+            margin-bottom: 20px;
         }
-
         .hidden {
-            display: none !important;
+            display: none;
         }
-
         .emoji {
-            font-size: 1.4em;
+            font-size: 1.2em;
         }
     </style>
-
-
 </head>
 <body>
-    <!-- Your existing HTML remains exactly the same -->
     <div class="card">
         <h1><span class="emoji">🧾</span> ORDER SUMMARY</h1>
-        <p class="subtitle">Review everything and send your order via WhatsApp! 📤</p>
+        <p class="subtitle">Review your order and send via WhatsApp</p>
 
         <div id="errorContainer" class="hidden"></div>
 
-        <div id="summaryContainer" class="hidden">
+        <div id="summaryContainer">
             <div class="summary-box">
-                <h3><span class="emoji">👤</span> Customer Details</h3>
+                <h3><span class="emoji">👤</span> CUSTOMER DETAILS</h3>
                 <div class="summary-item">
-                    <span class="label">Name:</span> <span id="dispName" class="value"></span>
+                    <span class="label">Name:</span>
+                    <span id="dispName">-</span>
                 </div>
                 <div class="summary-item">
-                    <span class="label">WhatsApp:</span> <span id="dispWhatsApp" class="value"></span>
+                    <span class="label">WhatsApp:</span>
+                    <span id="dispWhatsApp">-</span>
                 </div>
                 <div class="summary-item">
-                    <span class="label">Address:</span> <span id="dispAddress" class="value"></span>
+                    <span class="label">Address:</span>
+                    <span id="dispAddress">-</span>
                 </div>
             </div>
 
             <div class="summary-box">
-                <h3><span class="emoji">🎨</span> Sticker Details</h3>
+                <h3><span class="emoji">🎨</span> STICKER DETAILS</h3>
                 <div class="summary-item">
-                    <span class="label">Layout:</span> <span id="dispLayout" class="value"></span>
+                    <span class="label">Layout:</span>
+                    <span id="dispLayout">-</span>
                 </div>
                 <div class="summary-item">
-                    <span class="label">Filled Grids:</span> <span id="dispFilledGrids" class="value"></span>
+                    <span class="label">Filled Grids:</span>
+                    <span id="dispFilledGrids">-</span>
                 </div>
                 <div class="summary-item">
-                    <span class="label">Total Grids:</span> <span id="dispTotalGrids" class="value"></span>
+                    <span class="label">Total Grids:</span>
+                    <span id="dispTotalGrids">-</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Quantity (Sheets):</span>
+                    <span id="dispQuantity">-</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Price per Grid:</span>
+                    <span id="dispPricePerGrid">-</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Subtotal (filled grids):</span>
+                    <span id="dispSubtotal">-</span>
                 </div>
             </div>
 
@@ -204,78 +172,98 @@
             </div>
 
             <button id="sendWhatsAppBtn" class="whatsapp-btn">
-                <span class="emoji">📲</span> SEND THIS ORDER VIA WHATSAPP
+                <span class="emoji">📲</span> SEND ORDER VIA WHATSAPP
             </button>
-
-            <p>
-                <span class="emoji">ℹ️</span> Clicking the button will open WhatsApp with a pre-written message. Just hit send!
-            </p>
         </div>
     </div>
 
     <script>
-        // Your existing JavaScript stays exactly the same
+        // Business WhatsApp number
+        const BUSINESS_NUMBER = '94705608332';
+
+        // Layout name mapping
+        const layoutNames = {
+            'full': 'Full A4 (1 Grid)',
+            'half': 'Half A4 (2 Grids)',
+            'quarter': 'Quarter A4 (4 Grids)',
+            'eight': 'Eighth A4 (8 Grids)'
+        };
+
         window.onload = function() {
+            // Get customer data
             const userName = localStorage.getItem('sticker_userName');
             const userWhatsApp = localStorage.getItem('sticker_userWhatsApp');
             const userAddress = localStorage.getItem('sticker_userAddress');
+
+            // Get order data
             const stickerLayout = localStorage.getItem('stickerLayout');
             const totalGrids = localStorage.getItem('stickerGrids');
             const filledGrids = localStorage.getItem('filledGrids');
             const totalPrice = localStorage.getItem('totalPrice');
+            const quantity = localStorage.getItem('stickerQuantity') || '1';
+            const pricePerGrid = localStorage.getItem('pricePerGrid') || '0';
+            const subtotal = localStorage.getItem('stickerSubtotal');
 
+            // Check if customer data exists
             if (!userName || !userWhatsApp) {
-                showError("⚠️ Oops! Please start your order from the beginning.");
+                showError("⚠️ Missing customer information. Please start your order from the beginning.");
                 return;
             }
 
+            // Display customer info
             document.getElementById('dispName').textContent = userName;
             document.getElementById('dispWhatsApp').textContent = userWhatsApp;
             document.getElementById('dispAddress').textContent = userAddress || 'Not provided';
 
-            const layoutNames = { 'full': 'Full A4 (1 Grid)', 'half': 'Half A4 (2 Grids)', 'quarter': 'Quarter A4 (4 Grids)', 'eight': 'Eighth A4 (8 Grids)' };
+            // Display order info
             document.getElementById('dispLayout').textContent = layoutNames[stickerLayout] || stickerLayout || 'Not selected';
-
-            document.getElementById('dispTotalGrids').textContent = totalGrids || 'N/A';
+            document.getElementById('dispTotalGrids').textContent = totalGrids || '0';
             document.getElementById('dispFilledGrids').textContent = filledGrids || '0';
+            document.getElementById('dispQuantity').textContent = quantity;
+            document.getElementById('dispPricePerGrid').textContent = `Rs. ${parseFloat(pricePerGrid).toFixed(2)}`;
+            document.getElementById('dispSubtotal').textContent = `Rs. ${parseFloat(subtotal).toFixed(2)}`;
             document.getElementById('dispTotalPrice').textContent = totalPrice || '0';
 
+            // Show summary
             document.getElementById('summaryContainer').classList.remove('hidden');
 
+            // Setup WhatsApp button
             document.getElementById('sendWhatsAppBtn').onclick = function() {
-                sendToWhatsApp(userName, userWhatsApp, userAddress, stickerLayout, totalGrids, filledGrids, totalPrice);
+                sendToWhatsApp(userName, userWhatsApp, userAddress, stickerLayout, totalGrids, filledGrids, totalPrice, quantity, pricePerGrid, subtotal);
             };
         };
 
         function showError(message) {
             const errorContainer = document.getElementById('errorContainer');
-            errorContainer.innerHTML = `<p class="error-msg">${message} <br><br> <a href="index.html" style="color: #ffd700; font-weight: bold;">🏠 Go to Home Page</a></p>`;
+            errorContainer.innerHTML = `<div class="error-msg">${message}<br><br><a href="index.html" style="color: #1a1a1a; font-weight: bold;">🏠 Go to Home Page</a></div>`;
             errorContainer.classList.remove('hidden');
+            document.getElementById('summaryContainer').classList.add('hidden');
         }
 
-        function sendToWhatsApp(name, whatsapp, address, layout, totalGrids, filledGrids, price) {
-            const layoutNames = { 'full': 'Full A4', 'half': 'Half A4', 'quarter': 'Quarter A4', 'eight': 'Eighth A4' };
-            const layoutDisplay = layoutNames[layout] || layout;
-
+        function sendToWhatsApp(name, whatsapp, address, layout, totalGrids, filledGrids, totalPrice, quantity, pricePerGrid, subtotal) {
+            const layoutDisplay = layoutNames[layout] || layout || 'Not selected';
+            
             const message = `Assalamu Alaikum! New Sticker Order from SunduqVault:%0A%0A` +
-               `*CUSTOMER*%0A` +
+               `*CUSTOMER DETAILS*%0A` +
                `Name: ${name}%0A` +
                `WhatsApp: ${whatsapp}%0A` +
                `Address: ${address}%0A%0A` +
                `*ORDER DETAILS*%0A` +
                `Layout: ${layoutDisplay}%0A` +
-               `Filled Grids: ${filledGrids} / ${totalGrids}%0A` +
-               `Total Price: Rs. ${price}/=%0A%0A` +
-               `*IMPORTANT NEXT STEP*%0A` +
-               `1. Download your design preview.%0A` +
-               `2. SEND THAT IMAGE FILE here after this message.%0A%0A` +
+               `Total Grids on Sheet: ${totalGrids}%0A` +
+               `Filled Grids: ${filledGrids}%0A` +
+               `Price per Grid: Rs. ${parseFloat(pricePerGrid).toFixed(2)}%0A` +
+               `Subtotal: Rs. ${parseFloat(subtotal).toFixed(2)}%0A` +
+               `Quantity (Sheets): ${quantity}%0A` +
+               `TOTAL PRICE: Rs. ${totalPrice}/=%0A%0A` +
+               `*NEXT STEP*%0A` +
+               `Please send the design preview image after this message.%0A%0A` +
                `JazakAllah Khair! 📸`;
 
-            const yourBusinessNumber = '94705608332';
-            window.open(`https://wa.me/${yourBusinessNumber}?text=${message}`, '_blank');
+            window.open(`https://wa.me/${BUSINESS_NUMBER}?text=${message}`, '_blank');
             
-            alert(`✅ Perfect, ${name}! WhatsApp is opening. Please send the design preview image too, insha'Allah!`);
+            alert(`✅ WhatsApp is opening! Please send the design preview image too, insha'Allah.`);
         }
     </script>
 </body>
-                                                                </html>
+</html>                                 </html
