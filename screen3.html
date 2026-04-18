@@ -213,12 +213,6 @@
                     name: `click-${gridIndex}`
                 });
 
-                // Store grid boundaries for this cell
-                const minX = col * gridWidth + 15;
-                const maxX = (col + 1) * gridWidth - 15;
-                const minY = row * gridHeight + 15;
-                const maxY = (row + 1) * gridHeight - 15;
-
                 clickArea.on('mousedown', function() {
                     if (filledGrids[gridIndex]) {
                         alert('This grid already has an image! Delete it first.');
@@ -235,9 +229,9 @@
                         const reader = new FileReader();
                         reader.onload = function(event) {
                             fabric.Image.fromURL(event.target.result, function(img) {
-                                // Scale image to fit grid (with margin)
-                                const maxWidth = gridWidth - 30;
-                                const maxHeight = gridHeight - 30;
+                                // Scale image to fit grid nicely
+                                const maxWidth = gridWidth - 20;
+                                const maxHeight = gridHeight - 20;
                                 let scale = Math.min(maxWidth / img.width, maxHeight / img.height);
                                 if (scale > 1) scale = 1;
                                 img.scale(scale);
@@ -258,33 +252,6 @@
                                     borderColor: '#ffd700',
                                     cornerColor: '#ffd700',
                                     cornerSize: 8
-                                });
-
-                                // BOUNDARY LOCK - prevents image from leaving grid
-                                img.on('moving', function() {
-                                    const imgMinX = col * gridWidth + 15;
-                                    const imgMaxX = (col + 1) * gridWidth - 15 - (img.width * img.scaleX);
-                                    const imgMinY = row * gridHeight + 15;
-                                    const imgMaxY = (row + 1) * gridHeight - 15 - (img.height * img.scaleY);
-                                    
-                                    if (img.left < imgMinX) img.left = imgMinX;
-                                    if (img.left > imgMaxX) img.left = imgMaxX;
-                                    if (img.top < imgMinY) img.top = imgMinY;
-                                    if (img.top > imgMaxY) img.top = imgMaxY;
-                                    img.setCoords();
-                                });
-
-                                img.on('scaling', function() {
-                                    const imgMinX = col * gridWidth + 15;
-                                    const imgMaxX = (col + 1) * gridWidth - 15 - (img.width * img.scaleX);
-                                    const imgMinY = row * gridHeight + 15;
-                                    const imgMaxY = (row + 1) * gridHeight - 15 - (img.height * img.scaleY);
-                                    
-                                    if (img.left < imgMinX) img.left = imgMinX;
-                                    if (img.left > imgMaxX) img.left = imgMaxX;
-                                    if (img.top < imgMinY) img.top = imgMinY;
-                                    if (img.top > imgMaxY) img.top = imgMaxY;
-                                    img.setCoords();
                                 });
 
                                 canvas.add(img);
@@ -358,7 +325,7 @@
             localStorage.setItem('stickerQuantity', currentQuantity);
         }
 
-        // ========== GO TO SUMMARY (WITH QUANTITY) ==========
+        // ========== GO TO SUMMARY ==========
         function goToSummary() {
             // Count filled grids
             let filledCount = 0;
@@ -386,7 +353,6 @@
 
             alert(`✅ You filled ${filledCount} of ${totalGrids} grids.\nQuantity: ${quantity} sheet(s)\nTotal: Rs.${totalPrice}`);
 
-            // Redirect to summary page
             window.location.href = 'screen4.html';
         }
 
@@ -400,4 +366,4 @@
         }
     </script>
 </body>
-    </html>
+</html>
