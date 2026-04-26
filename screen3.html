@@ -327,34 +327,49 @@
 
         // ========== GO TO SUMMARY ==========
         function goToSummary() {
-            // Count filled grids
-            let filledCount = 0;
-            canvas.getObjects().forEach(obj => {
-                if (obj.name && obj.name.startsWith('image-')) filledCount++;
-            });
+    // 1. Check if any images exist
+    let filledCount = 0;
+    canvas.getObjects().forEach(obj => {
+        if (obj.name && obj.name.startsWith('image-')) filledCount++;
+    });
 
-            if (filledCount === 0) {
-                alert('⚠️ Please add at least one image to a grid before continuing!');
-                return;
-            }
+    if (filledCount === 0) {
+        alert('⚠️ Please add at least one image to a grid before continuing!');
+        return;
+    }
 
-            // Get quantity
-            const quantity = parseInt(document.getElementById('quantity').value) || 1;
-            
-            // Calculate price
-            const subtotal = filledCount * pricePerGrid;
-            const totalPrice = subtotal * quantity;
+    // 2. Get quantity
+    const quantity = parseInt(document.getElementById('quantity').value) || 1;
+    
+    // 3. Calculate price
+    const subtotal = filledCount * pricePerGrid;
+    const totalPrice = subtotal * quantity;
 
-            // Save to localStorage
-            localStorage.setItem('filledGrids', filledCount);
-            localStorage.setItem('totalPrice', totalPrice);
-            localStorage.setItem('stickerQuantity', quantity);
-            localStorage.setItem('stickerSubtotal', subtotal);
+    // 4. Save to localStorage
+    localStorage.setItem('filledGrids', filledCount);
+    localStorage.setItem('totalPrice', totalPrice);
+    localStorage.setItem('stickerQuantity', quantity);
+    localStorage.setItem('stickerSubtotal', subtotal);
 
-            alert(`✅ You filled ${filledCount} of ${totalGrids} grids.\nQuantity: ${quantity} sheet(s)\nTotal: Rs.${totalPrice}`);
+    // 5. ⭐ DOWNLOAD THE IMAGE (FIXED)
+    const dataURL = canvas.toDataURL({
+        format: 'png',
+        quality: 1.0,
+        multiplier: 2  // Higher resolution for better print quality
+    });
+    
+    const link = document.createElement('a');
+    link.download = `SunduqVault-Design-${Date.now()}.png`;
+    link.href = dataURL;
+    link.click();
 
-            window.location.href = 'screen4.html';
-        }
+    // 6. Show alert
+    alert(`✅ You filled ${filledCount} of ${totalGrids} grids.\nQuantity: ${quantity} sheet(s)\nTotal: Rs.${totalPrice}\n\n📸 Design preview downloaded! Send this image when ordering.`);
+
+    // 7. Redirect
+    window.location.href = 'screen4.html';
+                         }
+
 
         // Initialize quantity from localStorage if exists
         if (localStorage.getItem('stickerQuantity')) {
